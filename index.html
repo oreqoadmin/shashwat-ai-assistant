@@ -2701,6 +2701,100 @@ What are we creating today?</div>
         return choices[Math.abs(hash) % choices.length];
       };
 
+      const PROJECT_IDEAS = [
+        {
+          name: "StudySpark AI",
+          description: "An adaptive study planner that turns subjects and exam dates into personalized revision schedules.",
+          features: "Smart revision calendar, automatic quizzes, weak-topic tracking, progress streaks",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "Recipe Remix",
+          description: "An ingredient-first cooking app that invents practical recipes from food already available at home.",
+          features: "Pantry input, dietary filters, serving calculator, step-by-step cooking mode",
+          difficulty: "Beginner"
+        },
+        {
+          name: "Dream Portfolio Builder",
+          description: "A guided portfolio generator that creates a polished personal website from a short questionnaire.",
+          features: "Theme selection, project case-study prompts, live preview, one-click export",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "TravelQuest",
+          description: "A trip planner that builds complete itineraries around a traveler’s budget, interests, and dates.",
+          features: "Daily route builder, budget tracker, activity matching, offline itinerary",
+          difficulty: "Advanced"
+        },
+        {
+          name: "MoodCanvas",
+          description: "A private digital journal that transforms daily reflections into calming visual mood cards.",
+          features: "Guided journaling, mood timeline, visual themes, personalized reflection prompts",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "SkillSwap Local",
+          description: "A neighborhood learning exchange where people trade short lessons in skills they already know.",
+          features: "Skill profiles, smart matching, session booking, reviews and trust badges",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "EcoTrack Lens",
+          description: "A visual habit tracker that estimates the environmental impact of everyday choices.",
+          features: "Daily activity log, impact dashboard, weekly challenges, achievable reduction goals",
+          difficulty: "Advanced"
+        },
+        {
+          name: "FocusForge",
+          description: "A gamified focus companion that turns distraction-free work sessions into a growing digital world.",
+          features: "Focus timer, site-blocking checklist, streak rewards, progress garden",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "StorySeed Studio",
+          description: "A creative writing workspace that helps authors develop characters, plots, and branching storylines.",
+          features: "Character boards, plot-map builder, writing prompts, chapter export",
+          difficulty: "Intermediate"
+        },
+        {
+          name: "AccessWise",
+          description: "A website accessibility coach that converts common usability problems into guided improvement tasks.",
+          features: "Contrast checks, alt-text prompts, keyboard checklist, prioritized audit report",
+          difficulty: "Advanced"
+        }
+      ];
+
+      const getRequestedIdeaCount = text => {
+        const numberWords = {
+          one: 1,
+          two: 2,
+          three: 3,
+          four: 4,
+          five: 5,
+          six: 6,
+          seven: 7,
+          eight: 8,
+          nine: 9,
+          ten: 10
+        };
+        const match = text.toLowerCase().match(/\b(10|[1-9]|one|two|three|four|five|six|seven|eight|nine|ten)\b/);
+        if (!match) return 5;
+        return Number(match[1]) || numberWords[match[1]];
+      };
+
+      const createProjectIdeaResponse = text => {
+        const requestedCount = getRequestedIdeaCount(text);
+        return PROJECT_IDEAS
+          .slice(0, requestedCount)
+          .map((idea, index) =>
+            `${index + 1}. ${idea.name}\n` +
+            `   ${idea.description}\n` +
+            `   • Main features: ${idea.features}\n` +
+            `   • Difficulty: ${idea.difficulty}`
+          )
+          .join("\n\n");
+      };
+
       const cleanTopic = text => text
         .replace(/^(please\s+)?(help me|can you|could you|would you|i want to|tell me|explain|create|make|build|plan)\s+/i, "")
         .replace(/[?!.,]+$/g, "")
@@ -2777,7 +2871,7 @@ What are we creating today?</div>
         }
 
         if (containsAny(lower, ["idea", "ideas", "brainstorm", "project"])) {
-          return `Here are five directions for ${topic}:\n\n1. A focused tool that solves one repeated frustration extremely well.\n2. A visual dashboard that turns complex information into one clear decision.\n3. A guided learning experience with tiny challenges and instant feedback.\n4. A community-powered library of useful templates and examples.\n5. A personal AI workspace that remembers goals and suggests the next move.\n\nChoose the one with the strongest pull, and I’ll develop its name, audience, features, and launch plan.`;
+          return createProjectIdeaResponse(text);
         }
 
         if (containsAny(lower, ["plan", "roadmap", "steps", "start", "organize", "schedule"])) {
