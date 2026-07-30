@@ -1178,6 +1178,87 @@
       background: rgba(255,255,255,.022);
     }
 
+    .aura-plugins {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 18px;
+      padding: 13px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(5,7,14,.36);
+    }
+
+    .plugin-heading {
+      min-width: 132px;
+    }
+
+    .plugin-heading strong {
+      display: block;
+      color: var(--text);
+      font-size: .73rem;
+      letter-spacing: .01em;
+    }
+
+    .plugin-heading small {
+      display: block;
+      margin-top: 1px;
+      color: var(--muted-2);
+      font-size: .61rem;
+    }
+
+    .plugin-list {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding: 2px;
+      scrollbar-width: none;
+    }
+
+    .plugin-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .plugin-button {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(255,255,255,.035);
+      font-size: .66rem;
+      font-weight: 780;
+      transition: color .22s ease, border-color .22s ease, background .22s ease, transform .22s ease;
+    }
+
+    .plugin-button:hover,
+    .plugin-button:focus-visible {
+      color: var(--text);
+      border-color: rgba(0,231,255,.24);
+      outline: none;
+      background: rgba(0,231,255,.06);
+      transform: translateY(-1px);
+    }
+
+    .plugin-button.is-active {
+      color: #DFFFF0;
+      border-color: rgba(16,216,118,.34);
+      background: linear-gradient(135deg, rgba(16,216,118,.14), rgba(0,231,255,.07));
+      box-shadow: inset 0 0 18px rgba(16,216,118,.04), 0 0 18px rgba(16,216,118,.05);
+    }
+
+    .plugin-button.is-active::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
     .chat-identity {
       display: flex;
       align-items: center;
@@ -1557,6 +1638,277 @@
     .clear-chat:focus-visible {
       color: var(--secondary);
       outline: none;
+    }
+
+    /* AURA Image Studio */
+    .image-studio {
+      position: fixed;
+      inset: 0;
+      z-index: 800;
+      display: grid;
+      place-items: center;
+      overflow-y: auto;
+      padding: 24px;
+      background: rgba(3,5,12,.86);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+    }
+
+    .image-studio[hidden] {
+      display: none;
+    }
+
+    .image-studio-panel {
+      width: min(1120px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 12% 15%, rgba(79,124,255,.12), transparent 30%),
+        linear-gradient(145deg, rgba(18,22,40,.98), rgba(7,10,20,.98));
+      box-shadow: 0 36px 110px rgba(0,0,0,.58);
+    }
+
+    .image-studio-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .image-studio-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .image-studio-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(16,216,118,.3);
+      border-radius: 13px;
+      background: rgba(16,216,118,.09);
+      box-shadow: inset 0 0 18px rgba(16,216,118,.05);
+    }
+
+    .image-studio-title strong {
+      display: block;
+      font-size: .92rem;
+    }
+
+    .image-studio-title small {
+      display: block;
+      color: var(--muted-2);
+      font-size: .67rem;
+    }
+
+    .studio-close {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(255,255,255,.04);
+      font-size: 1.1rem;
+      transition: color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .studio-close:hover,
+    .studio-close:focus-visible {
+      color: var(--text);
+      outline: none;
+      background: rgba(255,255,255,.09);
+      transform: rotate(4deg);
+    }
+
+    .image-studio-body {
+      display: grid;
+      grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+      gap: 22px;
+      padding: 22px;
+    }
+
+    .studio-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .studio-intro {
+      color: var(--muted);
+      font-size: .77rem;
+      line-height: 1.65;
+    }
+
+    .studio-field label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .studio-field textarea,
+    .studio-field select {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px;
+      color: var(--text);
+      outline: none;
+      background: rgba(255,255,255,.045);
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .studio-field textarea {
+      min-height: 126px;
+      padding: 12px 13px;
+      resize: vertical;
+      font-size: .76rem;
+      line-height: 1.55;
+    }
+
+    .studio-field select {
+      height: 44px;
+      padding: 0 12px;
+      font-size: .74rem;
+    }
+
+    .studio-field textarea:focus,
+    .studio-field select:focus {
+      border-color: rgba(0,231,255,.34);
+      box-shadow: 0 0 0 4px rgba(0,231,255,.05);
+    }
+
+    .studio-field select option {
+      color: #0A0C16;
+    }
+
+    .studio-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .studio-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px;
+      margin-top: 2px;
+    }
+
+    .studio-generate,
+    .studio-download {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: .73rem;
+      font-weight: 850;
+      transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
+    }
+
+    .studio-generate {
+      color: #03120A;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 12px 28px rgba(16,216,118,.16);
+    }
+
+    .studio-download {
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+    }
+
+    .studio-generate:hover,
+    .studio-generate:focus-visible,
+    .studio-download:hover:not(:disabled),
+    .studio-download:focus-visible:not(:disabled) {
+      outline: none;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(16,216,118,.2);
+    }
+
+    .studio-download:disabled {
+      cursor: not-allowed;
+      opacity: .38;
+    }
+
+    .studio-status {
+      min-height: 18px;
+      color: var(--muted-2);
+      font-size: .65rem;
+    }
+
+    .studio-preview {
+      position: relative;
+      min-height: 520px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.025) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.025) 75%),
+        rgba(3,5,12,.58);
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+      background-size: 20px 20px;
+    }
+
+    .studio-preview canvas {
+      width: 100%;
+      max-height: min(62vh, 650px);
+      display: block;
+      object-fit: contain;
+      border-radius: 13px;
+      box-shadow: 0 22px 60px rgba(0,0,0,.42);
+    }
+
+    .studio-empty {
+      position: absolute;
+      inset: 14px;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(255,255,255,.12);
+      border-radius: 13px;
+      color: var(--muted-2);
+      text-align: center;
+      font-size: .72rem;
+      pointer-events: none;
+    }
+
+    .studio-empty span {
+      display: block;
+      max-width: 240px;
+    }
+
+    .studio-empty strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .studio-empty[hidden] {
+      display: none;
     }
 
     /* Quick action cards */
@@ -2232,6 +2584,25 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .aura-plugins {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .plugin-heading {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .image-studio-body {
+        grid-template-columns: 1fr;
+      }
+
+      .studio-preview {
+        min-height: 430px;
+      }
+
       .stats-panel {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -2347,6 +2718,11 @@
         padding-left: 14px;
       }
 
+      .aura-plugins {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+
       .chat-feed {
         padding: 18px 12px;
       }
@@ -2357,6 +2733,34 @@
 
       .attachment-grid {
         grid-template-columns: 1fr;
+      }
+
+      .image-studio {
+        padding: 8px;
+      }
+
+      .image-studio-panel {
+        max-height: calc(100vh - 16px);
+        border-radius: 20px;
+      }
+
+      .image-studio-header,
+      .image-studio-body {
+        padding: 14px;
+      }
+
+      .image-studio-body {
+        gap: 14px;
+      }
+
+      .studio-options,
+      .studio-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .studio-preview {
+        min-height: 340px;
+        padding: 8px;
       }
 
       .stats-panel {
@@ -2566,7 +2970,22 @@
                 <small><span class="online">●</span> Online · Thinking with you</small>
               </div>
             </div>
-            <span class="chat-meta">Local intelligence · Private</span>
+            <span class="chat-meta">Account synced · Private</span>
+          </div>
+
+          <div class="aura-plugins">
+            <div class="plugin-heading">
+              <strong>Creation plugins</strong>
+              <small id="activePluginHint">Auto chooses the right skill</small>
+            </div>
+            <div class="plugin-list" role="toolbar" aria-label="Choose an AURA creation plugin">
+              <button class="plugin-button is-active" type="button" data-plugin="auto" aria-pressed="true"><span aria-hidden="true">✦</span> Auto</button>
+              <button class="plugin-button" type="button" data-plugin="ideas" aria-pressed="false"><span aria-hidden="true">💡</span> Idea Lab</button>
+              <button class="plugin-button" type="button" data-plugin="planner" aria-pressed="false"><span aria-hidden="true">◆</span> Planner</button>
+              <button class="plugin-button" type="button" data-plugin="code" aria-pressed="false"><span aria-hidden="true">⌘</span> Code</button>
+              <button class="plugin-button" type="button" data-plugin="writer" aria-pressed="false"><span aria-hidden="true">✎</span> Writer</button>
+              <button class="plugin-button" type="button" data-plugin="image" aria-pressed="false"><span aria-hidden="true">◈</span> Image Studio</button>
+            </div>
           </div>
 
           <div class="chat-feed" id="chatFeed" role="log" aria-live="polite" aria-label="Conversation with AURA">
@@ -2634,10 +3053,10 @@ What are we creating today?</div>
             <p>Move from requirements to clean implementation faster.</p>
             <span class="quick-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="quick-card glass lift-card" href="#chats">
-            <div class="card-icon" aria-hidden="true">🎨</div>
-            <h3>Create Design</h3>
-            <p>Explore polished directions for your next interface.</p>
+          <a class="quick-card glass lift-card" href="#chats" data-action="image">
+            <div class="card-icon" aria-hidden="true">🖼️</div>
+            <h3>Create Image</h3>
+            <p>Turn a prompt into an original visual and download it.</p>
             <span class="quick-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="quick-card glass lift-card" href="#chats">
@@ -2831,6 +3250,66 @@ What are we creating today?</div>
     </main>
   </div>
 
+  <!-- AURA Image Studio -->
+  <section class="image-studio" id="imageStudio" role="dialog" aria-modal="true" aria-labelledby="imageStudioTitle" hidden>
+    <div class="image-studio-panel">
+      <div class="image-studio-header">
+        <div class="image-studio-title">
+          <div class="image-studio-icon" aria-hidden="true">◈</div>
+          <div>
+            <strong id="imageStudioTitle">AURA Image Studio</strong>
+            <small>Prompt-to-visual creator · Runs in your browser</small>
+          </div>
+        </div>
+        <button class="studio-close" id="imageStudioClose" type="button" aria-label="Close Image Studio">×</button>
+      </div>
+
+      <form class="image-studio-body" id="imageStudioForm">
+        <div class="studio-controls">
+          <p class="studio-intro">Describe a poster, concept image, wallpaper, or social visual. AURA will compose an original design you can download instantly.</p>
+
+          <div class="studio-field">
+            <label for="imagePrompt">What should AURA create?</label>
+            <textarea id="imagePrompt" maxlength="240" placeholder="A calm futuristic city at sunrise with emerald light…" required></textarea>
+          </div>
+
+          <div class="studio-options">
+            <div class="studio-field">
+              <label for="imageStyle">Visual style</label>
+              <select id="imageStyle">
+                <option value="aurora">Aurora</option>
+                <option value="cosmic">Cosmic</option>
+                <option value="editorial">Editorial</option>
+                <option value="minimal">Minimal</option>
+              </select>
+            </div>
+            <div class="studio-field">
+              <label for="imageRatio">Image size</label>
+              <select id="imageRatio">
+                <option value="square">Square · 1:1</option>
+                <option value="portrait">Portrait · 4:5</option>
+                <option value="wide">Wide · 16:9</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="studio-actions">
+            <button class="studio-generate" id="generateImageButton" type="submit"><span aria-hidden="true">✦</span> Create image</button>
+            <button class="studio-download" id="downloadImageButton" type="button" disabled>Download PNG</button>
+          </div>
+          <div class="studio-status" id="imageStudioStatus" role="status" aria-live="polite">Ready for your idea.</div>
+        </div>
+
+        <div class="studio-preview">
+          <canvas id="imageCanvas" width="1200" height="1200" role="img" aria-label="Generated image preview"></canvas>
+          <div class="studio-empty" id="imageStudioEmpty">
+            <span><strong>Your visual will appear here</strong>Describe the scene, choose a style, and create.</span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-line" aria-hidden="true"></div>
@@ -2893,6 +3372,7 @@ What are we creating today?</div>
       "use strict";
 
       const STORAGE_KEY = "shashwat-aura-conversation-v1";
+      const PLUGIN_KEY = "shashwat-aura-plugin-v1";
       const WELCOME_MESSAGE = "Hi, I’m AURA—the mind inside Shashwat AI. I’m built to help you think clearly, shape ideas, plan projects, write, learn, design, and solve code problems.\n\nWhat are we creating today?";
 
       const chatFeed = document.getElementById("chatFeed");
@@ -2903,9 +3383,51 @@ What are we creating today?</div>
       const clearChatButton = document.getElementById("clearChat");
       const newChatButton = document.getElementById("newChatButton");
       const promptChips = document.querySelectorAll(".prompt-chip");
+      const pluginButtons = document.querySelectorAll(".plugin-button");
+      const activePluginHint = document.getElementById("activePluginHint");
+      const imageStudio = document.getElementById("imageStudio");
+      const imageStudioForm = document.getElementById("imageStudioForm");
+      const imageStudioClose = document.getElementById("imageStudioClose");
+      const imagePrompt = document.getElementById("imagePrompt");
+      const imageStyle = document.getElementById("imageStyle");
+      const imageRatio = document.getElementById("imageRatio");
+      const imageCanvas = document.getElementById("imageCanvas");
+      const imageStudioEmpty = document.getElementById("imageStudioEmpty");
+      const imageStudioStatus = document.getElementById("imageStudioStatus");
+      const generateImageButton = document.getElementById("generateImageButton");
+      const downloadImageButton = document.getElementById("downloadImageButton");
+
+      const PLUGINS = {
+        auto: {
+          hint: "Auto chooses the right skill",
+          placeholder: "Message AURA about an idea, question, design, or code…"
+        },
+        ideas: {
+          hint: "Specific concepts with features and difficulty",
+          placeholder: "What kind of project ideas do you want?"
+        },
+        planner: {
+          hint: "Turns an outcome into clear build steps",
+          placeholder: "What do you want to plan or build?"
+        },
+        code: {
+          hint: "Structures, explains, and debugs code",
+          placeholder: "Describe the feature or paste the code problem…"
+        },
+        writer: {
+          hint: "Drafts clear content in the right voice",
+          placeholder: "What should AURA write, and for whom?"
+        },
+        image: {
+          hint: "Creates downloadable original visuals",
+          placeholder: "Describe the image you want to create…"
+        }
+      };
 
       let conversation = [];
       let isThinking = false;
+      let activePlugin = "auto";
+      let imageSeed = 0;
 
       /* Safe local fallback memory */
       const normalizeConversation = value => {
@@ -3031,6 +3553,286 @@ What are we creating today?</div>
           hash = ((hash << 5) - hash + text.charCodeAt(index)) | 0;
         }
         return choices[Math.abs(hash) % choices.length];
+      };
+
+      const hashText = text => {
+        let hash = 2166136261;
+        for (let index = 0; index < text.length; index += 1) {
+          hash ^= text.charCodeAt(index);
+          hash = Math.imul(hash, 16777619);
+        }
+        return hash >>> 0;
+      };
+
+      const seededRandom = seed => {
+        let value = seed >>> 0;
+        return () => {
+          value += 0x6D2B79F5;
+          let result = value;
+          result = Math.imul(result ^ (result >>> 15), result | 1);
+          result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+          return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+        };
+      };
+
+      const roundedPath = (context, x, y, width, height, radius) => {
+        const safeRadius = Math.min(radius, width / 2, height / 2);
+        context.beginPath();
+        context.moveTo(x + safeRadius, y);
+        context.lineTo(x + width - safeRadius, y);
+        context.quadraticCurveTo(x + width, y, x + width, y + safeRadius);
+        context.lineTo(x + width, y + height - safeRadius);
+        context.quadraticCurveTo(x + width, y + height, x + width - safeRadius, y + height);
+        context.lineTo(x + safeRadius, y + height);
+        context.quadraticCurveTo(x, y + height, x, y + height - safeRadius);
+        context.lineTo(x, y + safeRadius);
+        context.quadraticCurveTo(x, y, x + safeRadius, y);
+        context.closePath();
+      };
+
+      const wrapCanvasText = (context, text, maxWidth, maxLines = 3) => {
+        const words = text.trim().split(/\s+/);
+        const lines = [];
+        let current = "";
+
+        words.forEach(word => {
+          const candidate = current ? `${current} ${word}` : word;
+          if (context.measureText(candidate).width <= maxWidth || !current) {
+            current = candidate;
+          } else if (lines.length < maxLines - 1) {
+            lines.push(current);
+            current = word;
+          } else {
+            current = `${current} ${word}`;
+          }
+        });
+
+        if (current) lines.push(current);
+        if (lines.length > maxLines) lines.length = maxLines;
+
+        const lastIndex = lines.length - 1;
+        while (lastIndex >= 0 && context.measureText(lines[lastIndex]).width > maxWidth) {
+          lines[lastIndex] = `${lines[lastIndex].slice(0, -2).trim()}…`;
+        }
+        return lines;
+      };
+
+      const drawRadialGlow = (context, x, y, radius, color) => {
+        const glow = context.createRadialGradient(x, y, 0, x, y, radius);
+        glow.addColorStop(0, color);
+        glow.addColorStop(1, "rgba(0,0,0,0)");
+        context.fillStyle = glow;
+        context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+      };
+
+      const createCanvasImage = (prompt, style, ratio, variation) => {
+        const sizes = {
+          square: [1200, 1200],
+          portrait: [1080, 1350],
+          wide: [1600, 900]
+        };
+        const [width, height] = sizes[ratio] || sizes.square;
+        const context = imageCanvas.getContext("2d");
+        const seed = hashText(`${prompt}|${style}|${variation}`);
+        const random = seededRandom(seed);
+        const baseHue = seed % 360;
+        const hueTwo = (baseHue + 72 + Math.floor(random() * 55)) % 360;
+        const hueThree = (baseHue + 170 + Math.floor(random() * 70)) % 360;
+
+        imageCanvas.width = width;
+        imageCanvas.height = height;
+        context.clearRect(0, 0, width, height);
+
+        const background = context.createLinearGradient(0, 0, width, height);
+        if (style === "minimal") {
+          background.addColorStop(0, `hsl(${baseHue} 35% 10%)`);
+          background.addColorStop(1, `hsl(${hueTwo} 42% 17%)`);
+        } else if (style === "editorial") {
+          background.addColorStop(0, `hsl(${baseHue} 50% 12%)`);
+          background.addColorStop(.5, `hsl(${hueTwo} 66% 20%)`);
+          background.addColorStop(1, `hsl(${hueThree} 48% 10%)`);
+        } else {
+          background.addColorStop(0, `hsl(${baseHue} 66% 8%)`);
+          background.addColorStop(.52, `hsl(${hueTwo} 74% 18%)`);
+          background.addColorStop(1, `hsl(${hueThree} 72% 9%)`);
+        }
+        context.fillStyle = background;
+        context.fillRect(0, 0, width, height);
+
+        context.save();
+        context.globalCompositeOperation = "screen";
+        const glowCount = style === "minimal" ? 3 : 7;
+        for (let index = 0; index < glowCount; index += 1) {
+          const x = random() * width;
+          const y = random() * height;
+          const radius = Math.min(width, height) * (.18 + random() * .34);
+          const hue = [baseHue, hueTwo, hueThree][index % 3];
+          drawRadialGlow(context, x, y, radius, `hsla(${hue} 96% 62% / ${.12 + random() * .18})`);
+        }
+        context.restore();
+
+        if (style === "cosmic") {
+          context.save();
+          context.globalCompositeOperation = "screen";
+          for (let index = 0; index < 210; index += 1) {
+            const radius = random() * 2.6 + .3;
+            context.beginPath();
+            context.arc(random() * width, random() * height, radius, 0, Math.PI * 2);
+            context.fillStyle = `rgba(255,255,255,${.18 + random() * .72})`;
+            context.fill();
+          }
+          for (let index = 0; index < 5; index += 1) {
+            context.beginPath();
+            context.ellipse(
+              width * (.3 + random() * .4),
+              height * (.28 + random() * .4),
+              width * (.12 + random() * .23),
+              height * (.04 + random() * .1),
+              random() * Math.PI,
+              0,
+              Math.PI * 2
+            );
+            context.strokeStyle = `hsla(${[baseHue, hueTwo, hueThree][index % 3]} 95% 74% / .28)`;
+            context.lineWidth = Math.max(2, width * .002);
+            context.stroke();
+          }
+          context.restore();
+        } else if (style === "editorial") {
+          context.save();
+          for (let index = 0; index < 9; index += 1) {
+            const blockWidth = width * (.08 + random() * .24);
+            const blockHeight = height * (.08 + random() * .34);
+            const x = random() * (width - blockWidth);
+            const y = random() * (height - blockHeight);
+            roundedPath(context, x, y, blockWidth, blockHeight, Math.min(width, height) * .018);
+            context.fillStyle = `hsla(${[baseHue, hueTwo, hueThree][index % 3]} 86% 62% / ${.05 + random() * .1})`;
+            context.fill();
+            context.strokeStyle = "rgba(255,255,255,.1)";
+            context.lineWidth = Math.max(1, width * .001);
+            context.stroke();
+          }
+          context.restore();
+        } else if (style === "minimal") {
+          context.save();
+          const centerX = width * (.56 + (random() - .5) * .08);
+          const centerY = height * (.4 + (random() - .5) * .08);
+          const size = Math.min(width, height) * .27;
+          context.translate(centerX, centerY);
+          context.rotate((random() - .5) * .7);
+          roundedPath(context, -size / 2, -size / 2, size, size, size * .24);
+          context.fillStyle = `hsla(${hueTwo} 90% 62% / .18)`;
+          context.fill();
+          context.strokeStyle = "rgba(255,255,255,.3)";
+          context.lineWidth = Math.max(2, width * .002);
+          context.stroke();
+          context.restore();
+        } else {
+          context.save();
+          context.globalCompositeOperation = "screen";
+          for (let index = 0; index < 8; index += 1) {
+            const y = height * (.12 + random() * .7);
+            context.beginPath();
+            context.moveTo(-width * .08, y);
+            context.bezierCurveTo(
+              width * (.18 + random() * .2),
+              y - height * (.25 + random() * .25),
+              width * (.62 + random() * .22),
+              y + height * (.18 + random() * .28),
+              width * 1.08,
+              y - height * (.05 + random() * .18)
+            );
+            context.strokeStyle = `hsla(${[baseHue, hueTwo, hueThree][index % 3]} 96% 68% / ${.08 + random() * .14})`;
+            context.lineWidth = Math.min(width, height) * (.018 + random() * .05);
+            context.lineCap = "round";
+            context.stroke();
+          }
+          context.restore();
+        }
+
+        context.save();
+        context.globalAlpha = .12;
+        for (let index = 0; index < 1000; index += 1) {
+          const shade = random() > .5 ? 255 : 0;
+          context.fillStyle = `rgb(${shade}, ${shade}, ${shade})`;
+          context.fillRect(random() * width, random() * height, 1.3, 1.3);
+        }
+        context.restore();
+
+        const margin = Math.max(54, width * .065);
+        const cardWidth = Math.min(width - margin * 2, ratio === "wide" ? width * .58 : width * .78);
+        const titleSize = Math.max(42, Math.min(width, height) * .067);
+        const title = prompt.length > 100 ? `${prompt.slice(0, 98).trim()}…` : prompt;
+
+        context.save();
+        context.font = `800 ${titleSize}px Inter, ui-sans-serif, system-ui, sans-serif`;
+        const lines = wrapCanvasText(context, title, cardWidth - margin * .5, ratio === "wide" ? 2 : 3);
+        const lineHeight = titleSize * 1.05;
+        const textHeight = lines.length * lineHeight;
+        const cardHeight = textHeight + Math.max(110, height * .105);
+        const cardX = margin;
+        const cardY = height - margin - cardHeight;
+
+        roundedPath(context, cardX, cardY, cardWidth, cardHeight, Math.min(width, height) * .03);
+        context.fillStyle = "rgba(4,7,15,.52)";
+        context.fill();
+        context.strokeStyle = "rgba(255,255,255,.16)";
+        context.lineWidth = Math.max(1.5, width * .0012);
+        context.stroke();
+
+        context.fillStyle = "rgba(255,255,255,.62)";
+        context.font = `800 ${Math.max(14, Math.min(width, height) * .017)}px Inter, ui-sans-serif, system-ui, sans-serif`;
+        context.fillText(`AURA IMAGE STUDIO  ·  ${style.toUpperCase()}`, cardX + margin * .25, cardY + margin * .38);
+
+        context.fillStyle = "#FFFFFF";
+        context.font = `800 ${titleSize}px Inter, ui-sans-serif, system-ui, sans-serif`;
+        lines.forEach((line, index) => {
+          context.fillText(line, cardX + margin * .25, cardY + margin * .72 + titleSize + index * lineHeight);
+        });
+        context.restore();
+
+        imageStudioEmpty.hidden = true;
+        downloadImageButton.disabled = false;
+        imageStudioStatus.textContent = `Created ${width} × ${height} visual · Variation ${variation + 1}`;
+      };
+
+      const openImageStudio = prompt => {
+        if (typeof prompt === "string" && prompt.trim()) {
+          imagePrompt.value = prompt
+            .replace(/^(please\s+)?(create|generate|make|design)\s+(an?\s+)?(image|picture|poster|wallpaper|visual)\s*(of|for|about|:)?\s*/i, "")
+            .trim()
+            .slice(0, 240);
+        }
+        imageStudio.hidden = false;
+        document.body.style.overflow = "hidden";
+        window.setTimeout(() => imagePrompt.focus(), 30);
+      };
+
+      const closeImageStudio = () => {
+        imageStudio.hidden = true;
+        document.body.style.overflow = "";
+      };
+
+      const activatePlugin = (plugin, shouldOpenStudio = false) => {
+        activePlugin = PLUGINS[plugin] ? plugin : "auto";
+        const config = PLUGINS[activePlugin];
+        activePluginHint.textContent = config.hint;
+        assistantInput.placeholder = config.placeholder;
+
+        pluginButtons.forEach(button => {
+          const isActive = button.dataset.plugin === activePlugin;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", String(isActive));
+        });
+
+        try {
+          localStorage.setItem(PLUGIN_KEY, activePlugin);
+        } catch {
+          /* Plugin choice can remain session-only. */
+        }
+
+        if (activePlugin === "image" && shouldOpenStudio) {
+          openImageStudio(assistantInput.value);
+        }
       };
 
       const PROJECT_IDEAS = [
@@ -3289,8 +4091,36 @@ What are we creating today?</div>
           return `The answer is ${arithmeticAnswer}.`;
         }
 
+        if (
+          activePlugin === "image" ||
+          containsAny(lower, ["create image", "generate image", "make an image", "make a picture", "create a poster", "design a poster", "wallpaper"])
+        ) {
+          window.setTimeout(() => openImageStudio(text), 80);
+          return "I moved your prompt into Image Studio. Choose a visual style and size, then select “Create image.” You can regenerate variations and download the result as a PNG.";
+        }
+
         if (containsAny(lower, ["summarize", "summary", "shorten this"])) {
           return summarizeText(text);
+        }
+
+        if (activePlugin === "ideas") {
+          return createProjectIdeaResponse(text);
+        }
+
+        if (activePlugin === "planner") {
+          return `Build plan for ${topic}\n\n1. Outcome — define the finished result in one measurable sentence.\n2. Audience — name the person this must help and their most important need.\n3. Core version — choose the smallest useful version that proves the idea.\n4. Build order — foundation first, primary experience second, polish last.\n5. Validation — test the main flow with a real user before expanding.\n6. Launch — publish, measure the strongest signal, and improve one constraint at a time.\n\nFirst deliverable: write the outcome, audience, and must-have feature in three lines.`;
+        }
+
+        if (activePlugin === "code") {
+          const technology = containsAny(lower, ["python"]) ? "Python" :
+            containsAny(lower, ["javascript", " js "]) ? "JavaScript" :
+            containsAny(lower, ["css"]) ? "CSS" :
+            containsAny(lower, ["html"]) ? "HTML" : "the best-fit stack";
+          return `Code plugin active · ${technology}\n\nFor ${topic}, I’ll work in this order:\n1. Confirm the input, output, and edge cases.\n2. Choose the smallest maintainable structure.\n3. Implement the core path before optional features.\n4. Test success, empty, and error states.\n5. Explain the important decisions in plain language.\n\nSend the exact feature or paste the smallest failing snippet, plus “expected vs. actual.”`;
+        }
+
+        if (activePlugin === "writer") {
+          return `Writer plugin active · ${topic}\n\nI can draft this directly. Send:\n• Format — email, post, caption, story, script, or page copy\n• Audience — who will read it\n• Goal — what they should think, feel, or do\n• Voice — friendly, premium, bold, calm, or another tone\n• Length — one line, short, medium, or detailed\n\nIf you leave anything out, I’ll choose a sensible default and still produce a complete first draft.`;
         }
 
         if (containsAny(lower, ["website", "landing page", "web page", "portfolio", "homepage"])) {
@@ -3403,14 +4233,83 @@ What are we creating today?</div>
         });
       });
 
+      pluginButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          activatePlugin(button.dataset.plugin || "auto", true);
+          if (button.dataset.plugin !== "image") {
+            assistantInput.focus();
+          }
+        });
+      });
+
+      imageStudioForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const prompt = imagePrompt.value.trim();
+        if (!prompt) {
+          imageStudioStatus.textContent = "Describe the visual you want AURA to create.";
+          imagePrompt.focus();
+          return;
+        }
+
+        generateImageButton.disabled = true;
+        imageStudioStatus.textContent = "Composing your visual…";
+        window.setTimeout(() => {
+          createCanvasImage(prompt, imageStyle.value, imageRatio.value, imageSeed);
+          imageSeed += 1;
+          generateImageButton.disabled = false;
+        }, 180);
+      });
+
+      downloadImageButton.addEventListener("click", () => {
+        if (downloadImageButton.disabled) return;
+        imageCanvas.toBlob(blob => {
+          if (!blob) {
+            imageStudioStatus.textContent = "The download could not be prepared. Please create another variation.";
+            return;
+          }
+
+          const objectUrl = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          const safeName = imagePrompt.value
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "")
+            .slice(0, 48) || "aura-image";
+          link.href = objectUrl;
+          link.download = `${safeName}.png`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(objectUrl);
+          imageStudioStatus.textContent = "PNG downloaded.";
+        }, "image/png");
+      });
+
+      imageStudioClose.addEventListener("click", closeImageStudio);
+      imageStudio.addEventListener("click", event => {
+        if (event.target === imageStudio) closeImageStudio();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !imageStudio.hidden) {
+          closeImageStudio();
+        }
+      });
+
       document.querySelectorAll(".quick-card").forEach(card => {
         card.addEventListener("click", event => {
+          if (card.dataset.action === "image") {
+            event.preventDefault();
+            activatePlugin("image", true);
+            return;
+          }
+
           const action = card.querySelector("h3")?.textContent?.trim();
           const actionPrompts = {
             "Start Chat": "Help me turn a rough idea into a clear plan",
             "Summarize Text": "Summarize: ",
             "Generate Code": "Help me plan the code for ",
-            "Create Design": "Create a visual direction for ",
             "Learn Faster": "Explain in simple words: ",
             "Translate": "Translate into English: "
           };
@@ -3427,6 +4326,12 @@ What are we creating today?</div>
 
       clearChatButton.addEventListener("click", resetConversation);
       newChatButton.addEventListener("click", resetConversation);
+
+      try {
+        activatePlugin(localStorage.getItem(PLUGIN_KEY) || "auto");
+      } catch {
+        activatePlugin("auto");
+      }
 
       /* Restore the latest device-local conversation. */
       chatFeed.querySelectorAll(".message-row:not(.typing-row)").forEach(row => row.remove());
