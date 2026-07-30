@@ -385,10 +385,112 @@
 
     .profile-button {
       width: 42px;
+      overflow: hidden;
       color: #07120E;
       font-size: 0.82rem;
       font-weight: 900;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .profile-button img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-wrap {
+      position: relative;
+    }
+
+    .profile-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      width: min(310px, calc(100vw - 28px));
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px;
+      background: rgba(8, 11, 22, .96);
+      box-shadow: 0 24px 70px rgba(0,0,0,.48);
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+    }
+
+    .profile-menu[hidden] {
+      display: none;
+    }
+
+    .profile-menu-label {
+      color: var(--muted-2);
+      font-size: .66rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .profile-menu strong,
+    .profile-menu-email {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .profile-menu strong {
+      margin-top: 9px;
+      font-size: .9rem;
+    }
+
+    .profile-menu-email {
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: .72rem;
+    }
+
+    .profile-sync {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 9px 10px;
+      border: 1px solid rgba(16,216,118,.16);
+      border-radius: 11px;
+      color: #B9F9D8;
+      background: rgba(16,216,118,.06);
+      font-size: .68rem;
+      font-weight: 700;
+    }
+
+    .profile-sync::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 10px rgba(16,216,118,.8);
+    }
+
+    .sign-out-button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 11px;
+      color: var(--text);
+      cursor: pointer;
+      background: rgba(255,255,255,.05);
+      font-size: .74rem;
+      font-weight: 800;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .sign-out-button:hover,
+    .sign-out-button:focus-visible {
+      border-color: rgba(255,107,138,.35);
+      outline: none;
+      background: rgba(255,107,138,.09);
+      transform: translateY(-1px);
     }
 
     .icon-button:hover,
@@ -396,6 +498,164 @@
       transform: translateY(-2px) rotate(2deg);
       border-color: rgba(16,216,118,0.35);
       box-shadow: 0 8px 25px rgba(16,216,118,0.14);
+    }
+
+    /* ================================================================
+       SIGN-IN GATE
+       ================================================================ */
+    .auth-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      overflow-y: auto;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(79,124,255,.18), transparent 30%),
+        radial-gradient(circle at 82% 78%, rgba(16,216,118,.15), transparent 32%),
+        rgba(5, 7, 16, .97);
+    }
+
+    .auth-gate[hidden] {
+      display: none;
+    }
+
+    .auth-card {
+      position: relative;
+      width: min(100%, 470px);
+      overflow: hidden;
+      padding: clamp(28px, 7vw, 48px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 30px;
+      text-align: center;
+      background: linear-gradient(145deg, rgba(255,255,255,.1), rgba(255,255,255,.035));
+      box-shadow: 0 34px 100px rgba(0,0,0,.52), 0 0 70px rgba(16,216,118,.07);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+    }
+
+    .auth-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(16,216,118,.18), transparent 38%, rgba(0,231,255,.13));
+    }
+
+    .auth-logo {
+      position: relative;
+      width: 78px;
+      height: 78px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 24px;
+      border: 1px solid rgba(16,216,118,.42);
+      border-radius: 25px;
+      color: #EFFFF7;
+      background: linear-gradient(145deg, rgba(16,216,118,.2), rgba(79,124,255,.18));
+      box-shadow: 0 0 0 10px rgba(16,216,118,.035), 0 0 38px rgba(16,216,118,.2);
+      font-size: 2rem;
+      animation: floating 5s ease-in-out infinite;
+    }
+
+    .auth-kicker {
+      color: var(--primary);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .auth-card h1 {
+      margin-top: 10px;
+      font-size: clamp(2.2rem, 8vw, 3.45rem);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .auth-card > p {
+      max-width: 360px;
+      margin: 15px auto 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .google-sign-in {
+      width: 100%;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      margin-top: 28px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 15px;
+      color: #07120E;
+      cursor: pointer;
+      background: linear-gradient(135deg, #FFFFFF, #DDF8EA);
+      box-shadow: 0 14px 32px rgba(0,0,0,.24);
+      font-size: .86rem;
+      font-weight: 900;
+      transition: transform .22s ease, box-shadow .22s ease, opacity .22s ease;
+    }
+
+    .google-sign-in:hover,
+    .google-sign-in:focus-visible {
+      outline: none;
+      transform: translateY(-2px);
+      box-shadow: 0 19px 42px rgba(16,216,118,.18);
+    }
+
+    .google-sign-in:disabled {
+      cursor: wait;
+      opacity: .58;
+      transform: none;
+    }
+
+    .google-mark {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #174EA6;
+      background: #FFFFFF;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+      font-size: .86rem;
+      font-weight: 950;
+    }
+
+    .auth-status {
+      min-height: 22px;
+      margin-top: 14px;
+      color: var(--muted-2);
+      font-size: .7rem;
+    }
+
+    .auth-status.is-error {
+      color: #FF9CB0;
+    }
+
+    .auth-privacy {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 20px;
+      color: var(--muted-2);
+      font-size: .65rem;
+    }
+
+    .auth-privacy::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 9px rgba(16,216,118,.7);
     }
 
     /* ================================================================
@@ -2016,6 +2276,14 @@
         height: 38px;
       }
 
+      .auth-gate {
+        padding: 14px;
+      }
+
+      .auth-card {
+        border-radius: 24px;
+      }
+
       .app-shell {
         margin-top: 12px;
         gap: 12px;
@@ -2146,6 +2414,22 @@
     <div class="blob blob-three"></div>
   </div>
 
+  <!-- AURA account entry -->
+  <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
+    <div class="auth-card">
+      <div class="auth-logo" aria-hidden="true">✦</div>
+      <div class="auth-kicker">Shashwat AI</div>
+      <h1 id="authTitle">Meet AURA.</h1>
+      <p>Sign in to open your personal AI workspace and keep your conversations available across devices.</p>
+      <button class="google-sign-in" id="googleSignInButton" type="button" disabled>
+        <span class="google-mark" aria-hidden="true">G</span>
+        <span id="googleSignInLabel">Preparing sign in…</span>
+      </button>
+      <div class="auth-status" id="authStatus" role="status" aria-live="polite">Connecting to your workspace…</div>
+      <div class="auth-privacy">Your saved chats are private to your account</div>
+    </div>
+  </section>
+
   <!-- Sticky global navigation -->
   <header class="site-header">
     <div class="nav-shell">
@@ -2168,7 +2452,19 @@
           <input type="search" name="q" placeholder="Search anything…" aria-label="Search">
         </form>
         <button class="icon-button" type="button" aria-label="Notifications">◉</button>
-        <button class="profile-button" type="button" aria-label="Open Shashwat's profile">SM</button>
+        <div class="profile-wrap">
+          <button class="profile-button" id="profileButton" type="button" aria-label="Open account menu" aria-expanded="false">
+            <span id="profileInitials">SM</span>
+            <img id="profilePhoto" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" referrerpolicy="no-referrer" hidden>
+          </button>
+          <div class="profile-menu" id="profileMenu" hidden>
+            <span class="profile-menu-label">Signed in as</span>
+            <strong id="profileName">Shashwat</strong>
+            <span class="profile-menu-email" id="profileEmail"></span>
+            <div class="profile-sync" id="profileCloudStatus">Cloud sync is on</div>
+            <button class="sign-out-button" id="signOutButton" type="button">Sign out</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -2302,7 +2598,7 @@ What are we creating today?</div>
               <button class="composer-send" id="sendButton" type="submit" aria-label="Send message">↗</button>
             </div>
             <div class="composer-footer">
-              <span class="memory-note">Conversation remembers on this device</span>
+              <span class="memory-note" id="memoryNote">Conversation syncs to your account</span>
               <button class="clear-chat" id="clearChat" type="button">Clear conversation</button>
             </div>
           </form>
@@ -2591,8 +2887,7 @@ What are we creating today?</div>
   <script>
     /* ================================================================
        AURA — SHASHWAT MIND
-       A private, browser-based conversational layer. Messages remain
-       on this device and are never sent to an external service.
+       A focused conversational layer with private account-based sync.
        ================================================================ */
     (() => {
       "use strict";
@@ -2612,25 +2907,37 @@ What are we creating today?</div>
       let conversation = [];
       let isThinking = false;
 
-      /* Safe device-local memory */
+      /* Safe local fallback memory */
+      const normalizeConversation = value => {
+        if (!Array.isArray(value)) return [];
+        return value
+          .filter(item => item && ["user", "assistant"].includes(item.role) && typeof item.text === "string")
+          .map(item => ({
+            role: item.role,
+            text: item.text.slice(0, 5000),
+            time: Number.isFinite(Number(item.time)) ? Number(item.time) : Date.now()
+          }))
+          .slice(-30);
+      };
+
       const readConversation = () => {
         try {
-          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-          if (!Array.isArray(saved)) return [];
-          return saved
-            .filter(item => item && ["user", "assistant"].includes(item.role) && typeof item.text === "string")
-            .slice(-30);
+          return normalizeConversation(JSON.parse(localStorage.getItem(STORAGE_KEY)));
         } catch {
           return [];
         }
       };
 
       const saveConversation = () => {
+        const safeConversation = normalizeConversation(conversation);
         try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(conversation.slice(-30)));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(safeConversation));
         } catch {
           /* The assistant still works if browser storage is unavailable. */
         }
+        window.dispatchEvent(new CustomEvent("aura-conversation-change", {
+          detail: safeConversation
+        }));
       };
 
       const formatTime = timestamp => new Intl.DateTimeFormat([], {
@@ -2688,6 +2995,31 @@ What are we creating today?</div>
         addMessage("assistant", WELCOME_MESSAGE);
         assistantInput.value = "";
         resizeInput();
+      };
+
+      const replaceConversation = value => {
+        const nextConversation = normalizeConversation(value);
+        if (nextConversation.length === 0) return false;
+
+        conversation = nextConversation;
+        chatFeed.querySelectorAll(".message-row:not(.typing-row)").forEach(row => row.remove());
+        typingRow.hidden = true;
+        conversation.forEach(renderMessage);
+
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(conversation));
+        } catch {
+          /* Cloud history can still be displayed without local storage. */
+        }
+
+        scrollToLatest();
+        return true;
+      };
+
+      window.auraChat = {
+        getConversation: () => normalizeConversation(conversation),
+        replaceConversation,
+        resetConversation
       };
 
       /* Small language helpers keep AURA's replies relevant and varied. */
@@ -2945,7 +3277,7 @@ What are we creating today?</div>
         }
 
         if (containsAny(lower, ["who are you", "what are you", "your name", "are you real ai"])) {
-          return "I’m AURA, the local mind inside Shashwat AI. I’m a private browser-based assistant designed to organize thoughts, generate directions, structure plans, and guide creative or technical work. Your conversation stays on this device.";
+          return "I’m AURA, the mind inside Shashwat AI. I’m designed to organize thoughts, generate directions, structure plans, and guide creative or technical work. When you sign in, your saved conversation syncs privately to your account.";
         }
 
         if (containsAny(lower, ["thank you", "thanks", "thx", "great job", "awesome"])) {
@@ -3105,6 +3437,306 @@ What are we creating today?</div>
       }
       conversation.forEach(renderMessage);
       scrollToLatest();
+    })();
+  </script>
+
+  <script type="module">
+    (() => {
+      "use strict";
+
+      const FIREBASE_VERSION = "12.16.0";
+      const LAST_USER_KEY = "shashwat-aura-last-user-v1";
+      const EMPTY_AVATAR = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      const firebaseConfig = {
+        apiKey: "AIzaSyBerVY6CI3BxuA1bxEafhTPutUd9-RKUAk",
+        authDomain: "shashwat-aura-ai-web-2026.firebaseapp.com",
+        projectId: "shashwat-aura-ai-web-2026",
+        storageBucket: "shashwat-aura-ai-web-2026.firebasestorage.app",
+        messagingSenderId: "101480177037",
+        appId: "1:101480177037:web:6509ee9b5ec29d4536f1c4"
+      };
+
+      const authGate = document.getElementById("authGate");
+      const signInButton = document.getElementById("googleSignInButton");
+      const signInLabel = document.getElementById("googleSignInLabel");
+      const authStatus = document.getElementById("authStatus");
+      const profileButton = document.getElementById("profileButton");
+      const profileMenu = document.getElementById("profileMenu");
+      const profileInitials = document.getElementById("profileInitials");
+      const profilePhoto = document.getElementById("profilePhoto");
+      const profileName = document.getElementById("profileName");
+      const profileEmail = document.getElementById("profileEmail");
+      const profileCloudStatus = document.getElementById("profileCloudStatus");
+      const signOutButton = document.getElementById("signOutButton");
+      const memoryNote = document.getElementById("memoryNote");
+
+      const setAuthStatus = (message, isError = false) => {
+        authStatus.textContent = message;
+        authStatus.classList.toggle("is-error", isError);
+      };
+
+      const showGate = () => {
+        profileMenu.hidden = true;
+        profileButton.setAttribute("aria-expanded", "false");
+        authGate.hidden = false;
+        document.body.style.overflow = "hidden";
+      };
+
+      const hideGate = () => {
+        authGate.hidden = true;
+        document.body.style.overflow = "";
+      };
+
+      const readableAuthError = error => {
+        const messages = {
+          "auth/popup-closed-by-user": "Sign-in was cancelled. Try again when you’re ready.",
+          "auth/cancelled-popup-request": "The previous sign-in window was closed. Please try again.",
+          "auth/popup-blocked": "Your browser blocked the sign-in window. Allow pop-ups for this site and try again.",
+          "auth/network-request-failed": "Check your internet connection, then try again.",
+          "auth/unauthorized-domain": "This website is not yet authorized for sign-in."
+        };
+        return messages[error?.code] || "Sign-in couldn’t finish. Please try again.";
+      };
+
+      const getInitials = user => {
+        const source = user.displayName || user.email || "AURA User";
+        const parts = source.trim().split(/\s+/).filter(Boolean);
+        return parts.slice(0, 2).map(part => part[0]).join("").toUpperCase() || "AU";
+      };
+
+      const updateProfile = user => {
+        profileName.textContent = user.displayName || "AURA User";
+        profileEmail.textContent = user.email || "";
+        profileInitials.textContent = getInitials(user);
+
+        if (user.photoURL) {
+          profilePhoto.src = user.photoURL;
+          profilePhoto.alt = `${user.displayName || "User"} profile photo`;
+          profilePhoto.hidden = false;
+          profileInitials.hidden = true;
+        } else {
+          profilePhoto.src = EMPTY_AVATAR;
+          profilePhoto.alt = "";
+          profilePhoto.hidden = true;
+          profileInitials.hidden = false;
+        }
+      };
+
+      const normalizeMessages = value => {
+        if (!Array.isArray(value)) return [];
+        return value
+          .filter(item => item && ["user", "assistant"].includes(item.role) && typeof item.text === "string")
+          .map(item => ({
+            role: item.role,
+            text: item.text.slice(0, 5000),
+            time: Number.isFinite(Number(item.time)) ? Number(item.time) : Date.now()
+          }))
+          .slice(-30);
+      };
+
+      const startFirebase = async () => {
+        const appUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`;
+        const authUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-auth.js`;
+        const firestoreUrl = `https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore.js`;
+        const [appSdk, authSdk, firestoreSdk] = await Promise.all([
+          import(appUrl),
+          import(authUrl),
+          import(firestoreUrl)
+        ]);
+
+        const { initializeApp } = appSdk;
+        const {
+          browserLocalPersistence,
+          getAuth,
+          GoogleAuthProvider,
+          onAuthStateChanged,
+          setPersistence,
+          signInWithPopup,
+          signOut
+        } = authSdk;
+        const {
+          doc,
+          getDoc,
+          getFirestore,
+          serverTimestamp,
+          setDoc
+        } = firestoreSdk;
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: "select_account" });
+
+        let activeUser = null;
+        let saveTimer = null;
+        let authSequence = 0;
+
+        try {
+          await setPersistence(auth, browserLocalPersistence);
+        } catch (error) {
+          console.warn("AURA could not set local auth persistence.", error);
+        }
+
+        const setSyncStatus = (message, ready = true) => {
+          profileCloudStatus.textContent = message;
+          memoryNote.textContent = ready
+            ? "Conversation syncs to your account"
+            : "Using local memory until cloud sync returns";
+        };
+
+        const saveMessagesNow = async messages => {
+          if (!activeUser) return;
+          const safeMessages = normalizeMessages(messages);
+          try {
+            await setDoc(
+              doc(db, "users", activeUser.uid, "conversations", "main"),
+              {
+                messages: safeMessages,
+                updatedAt: serverTimestamp()
+              },
+              { merge: true }
+            );
+            setSyncStatus("Cloud sync is on");
+          } catch (error) {
+            console.error("AURA conversation sync failed.", error);
+            setSyncStatus("Cloud sync needs attention", false);
+          }
+        };
+
+        const queueCloudSave = messages => {
+          if (!activeUser) return;
+          window.clearTimeout(saveTimer);
+          saveTimer = window.setTimeout(() => saveMessagesNow(messages), 450);
+        };
+
+        window.addEventListener("aura-conversation-change", event => {
+          queueCloudSave(event.detail);
+        });
+
+        const loadWorkspace = async user => {
+          const previousUserId = localStorage.getItem(LAST_USER_KEY);
+          const userRef = doc(db, "users", user.uid);
+          const conversationRef = doc(db, "users", user.uid, "conversations", "main");
+
+          try {
+            await setDoc(userRef, {
+              displayName: user.displayName || "",
+              email: user.email || "",
+              photoURL: user.photoURL || "",
+              lastLoginAt: serverTimestamp()
+            }, { merge: true });
+
+            const snapshot = await getDoc(conversationRef);
+            const cloudMessages = snapshot.exists()
+              ? normalizeMessages(snapshot.data()?.messages)
+              : [];
+
+            if (cloudMessages.length > 0) {
+              window.auraChat?.replaceConversation(cloudMessages);
+            } else if (!previousUserId || previousUserId === user.uid) {
+              queueCloudSave(window.auraChat?.getConversation() || []);
+            } else {
+              window.auraChat?.resetConversation();
+            }
+
+            localStorage.setItem(LAST_USER_KEY, user.uid);
+            setSyncStatus("Cloud sync is on");
+          } catch (error) {
+            console.error("AURA workspace loading failed.", error);
+            if (previousUserId && previousUserId !== user.uid) {
+              window.auraChat?.resetConversation();
+            }
+            localStorage.setItem(LAST_USER_KEY, user.uid);
+            setSyncStatus("Cloud sync needs attention", false);
+          }
+        };
+
+        signInButton.disabled = false;
+        signInLabel.textContent = "Continue with Google";
+        setAuthStatus("Choose your Google account to continue.");
+
+        signInButton.addEventListener("click", async () => {
+          signInButton.disabled = true;
+          signInLabel.textContent = "Opening Google…";
+          setAuthStatus("Complete sign-in in the Google window.");
+
+          try {
+            await signInWithPopup(auth, provider);
+          } catch (error) {
+            console.error("AURA sign-in failed.", error);
+            setAuthStatus(readableAuthError(error), true);
+            signInButton.disabled = false;
+            signInLabel.textContent = "Continue with Google";
+          }
+        });
+
+        signOutButton.addEventListener("click", async () => {
+          signOutButton.disabled = true;
+          try {
+            await signOut(auth);
+          } catch (error) {
+            console.error("AURA sign-out failed.", error);
+            setSyncStatus("Sign-out failed — try again", false);
+          } finally {
+            signOutButton.disabled = false;
+          }
+        });
+
+        profileButton.addEventListener("click", () => {
+          const willOpen = profileMenu.hidden;
+          profileMenu.hidden = !willOpen;
+          profileButton.setAttribute("aria-expanded", String(willOpen));
+        });
+
+        document.addEventListener("click", event => {
+          if (!event.target.closest(".profile-wrap")) {
+            profileMenu.hidden = true;
+            profileButton.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        document.addEventListener("keydown", event => {
+          if (event.key === "Escape") {
+            profileMenu.hidden = true;
+            profileButton.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        onAuthStateChanged(auth, async user => {
+          const sequence = ++authSequence;
+          window.clearTimeout(saveTimer);
+
+          if (!user) {
+            activeUser = null;
+            signInButton.disabled = false;
+            signInLabel.textContent = "Continue with Google";
+            setAuthStatus("Choose your Google account to continue.");
+            showGate();
+            return;
+          }
+
+          activeUser = user;
+          updateProfile(user);
+          signInButton.disabled = true;
+          signInLabel.textContent = "Loading your workspace…";
+          setAuthStatus("Restoring your private AURA conversation…");
+          await loadWorkspace(user);
+
+          if (sequence === authSequence && activeUser?.uid === user.uid) {
+            hideGate();
+          }
+        });
+      };
+
+      startFirebase().catch(error => {
+        console.error("AURA Firebase startup failed.", error);
+        signInButton.disabled = false;
+        signInLabel.textContent = "Retry connection";
+        setAuthStatus("AURA couldn’t connect. Check your internet and retry.", true);
+        signInButton.addEventListener("click", () => window.location.reload(), { once: true });
+        showGate();
+      });
     })();
   </script>
 </body>
