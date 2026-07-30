@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shashwat AI — a premium intelligent assistant for ideas, code, learning, and creative work.">
+  <meta name="theme-color" content="#090B15">
+  <title>Shashwat AI — Intelligent Assistant</title>
+
+  <style>
+    /* ================================================================
+       SHASHWAT AI — DESIGN SYSTEM
+       Everything in this experience is intentionally self-contained.
+       ================================================================ */
+    :root {
+      --bg: #090B15;
+      --bg-deep: #050710;
+      --surface: rgba(255, 255, 255, 0.06);
+      --surface-strong: rgba(255, 255, 255, 0.095);
+      --surface-soft: rgba(255, 255, 255, 0.035);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-bright: rgba(95, 255, 190, 0.32);
+      --primary: #10D876;
+      --secondary: #00E7FF;
+      --accent: #4F7CFF;
+      --purple: #8A5CFF;
+      --text: #FFFFFF;
+      --muted: #B7C2D9;
+      --muted-2: #7F8AA5;
+      --danger: #FF6B8A;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+      --glow: 0 0 34px rgba(16, 216, 118, 0.18);
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --header-height: 78px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 104px;
+    }
+
+    body {
+      min-width: 320px;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(79, 124, 255, 0.14), transparent 28%),
+        radial-gradient(circle at 85% 10%, rgba(16, 216, 118, 0.11), transparent 25%),
+        linear-gradient(135deg, #070914 0%, #0B1020 50%, #080A14 100%);
+      background-size: 160% 160%;
+      animation: gradientMove 18s ease infinite;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      opacity: 0.17;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 15%, transparent 80%);
+      mask-image: radial-gradient(circle at 50% 40%, #000 15%, transparent 80%);
+    }
+
+    ::selection {
+      color: #03130C;
+      background: var(--primary);
+    }
+
+    ::-webkit-scrollbar {
+      width: 11px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #070912;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border: 3px solid #070912;
+      border-radius: 20px;
+      background: linear-gradient(var(--primary), var(--accent));
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      color: inherit;
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      border: 0;
+    }
+
+    /* Ambient background decoration */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(85px);
+      opacity: 0.23;
+      animation: blobMove 16s ease-in-out infinite alternate;
+    }
+
+    .blob-one {
+      top: 8%;
+      left: -7%;
+      width: 360px;
+      height: 360px;
+      background: var(--accent);
+    }
+
+    .blob-two {
+      top: 42%;
+      right: -10%;
+      width: 460px;
+      height: 460px;
+      background: var(--primary);
+      animation-delay: -5s;
+    }
+
+    .blob-three {
+      bottom: -14%;
+      left: 30%;
+      width: 500px;
+      height: 500px;
+      background: var(--purple);
+      animation-delay: -10s;
+    }
+
+    /* Shared glass language */
+    .glass {
+      position: relative;
+      border: 1px solid var(--border);
+      background: linear-gradient(145deg, rgba(255,255,255,0.085), rgba(255,255,255,0.025));
+      box-shadow: var(--shadow);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(255,255,255,0.10), transparent 28%);
+      opacity: 0.56;
+    }
+
+    .glass > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ================================================================
+       STICKY HEADER
+       ================================================================ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--header-height);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7, 9, 18, 0.74);
+      box-shadow: 0 14px 44px rgba(0,0,0,0.18);
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+    }
+
+    .nav-shell {
+      width: min(1540px, calc(100% - 40px));
+      height: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(97,255,192,0.34);
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(16,216,118,0.18), rgba(79,124,255,0.16));
+      box-shadow: inset 0 0 18px rgba(16,216,118,0.10), 0 0 22px rgba(16,216,118,0.12);
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 10px;
+      background: rgba(255,255,255,0.36);
+      filter: blur(4px);
+      transform: rotate(-45deg) translateY(-35px);
+      animation: shine 4.5s ease-in-out infinite;
+    }
+
+    .brand-name {
+      font-size: 1.08rem;
+    }
+
+    .brand-name span {
+      color: var(--primary);
+    }
+
+    .main-nav {
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .main-nav a {
+      position: relative;
+      padding: 8px 13px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 650;
+      transition: color .25s ease, background .25s ease, transform .25s ease;
+    }
+
+    .main-nav a::after {
+      content: "";
+      position: absolute;
+      right: 13px;
+      bottom: 5px;
+      left: 13px;
+      height: 1px;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: transform .25s ease;
+    }
+
+    .main-nav a:hover,
+    .main-nav a:focus-visible {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .main-nav a:hover::after,
+    .main-nav a:focus-visible::after {
+      transform: scaleX(1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .search-box {
+      width: 188px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 13px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 13px;
+      background: rgba(255,255,255,0.045);
+      transition: border-color .25s ease, box-shadow .25s ease, width .25s ease;
+    }
+
+    .search-box:focus-within {
+      width: 208px;
+      border-color: rgba(0,231,255,0.4);
+      box-shadow: 0 0 0 4px rgba(0,231,255,0.06);
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      background: transparent;
+      font-size: 0.82rem;
+    }
+
+    .search-box input::placeholder {
+      color: var(--muted-2);
+    }
+
+    .search-submit {
+      display: grid;
+      place-items: center;
+      padding: 0;
+      color: var(--muted);
+      cursor: pointer;
+      background: transparent;
+      transition: color .25s ease, transform .25s ease;
+    }
+
+    .search-submit:hover,
+    .search-submit:focus-visible {
+      color: var(--secondary);
+      transform: scale(1.1);
+      outline: none;
+    }
+
+    .icon-button,
+    .profile-button {
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 13px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.045);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    .icon-button {
+      position: relative;
+      width: 42px;
+    }
+
+    .icon-button::after {
+      content: "";
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 6px;
+      height: 6px;
+      border: 2px solid #0A0C16;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .profile-button {
+      width: 42px;
+      color: #07120E;
+      font-size: 0.82rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    .icon-button:hover,
+    .profile-button:hover {
+      transform: translateY(-2px) rotate(2deg);
+      border-color: rgba(16,216,118,0.35);
+      box-shadow: 0 8px 25px rgba(16,216,118,0.14);
+    }
+
+    /* ================================================================
+       APP SHELL + SIDEBAR
+       ================================================================ */
+    .app-shell {
+      width: min(1540px, calc(100% - 40px));
+      margin: 24px auto 0;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: calc(var(--header-height) + 24px);
+      min-height: calc(100vh - var(--header-height) - 48px);
+      padding: 18px;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+    }
+
+    .new-chat {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      padding: 13px 16px;
+      border: 1px solid rgba(16,216,118,0.42);
+      border-radius: 14px;
+      color: #04110A;
+      cursor: pointer;
+      font-weight: 850;
+      background: linear-gradient(135deg, var(--primary), #66F3B0);
+      box-shadow: 0 12px 30px rgba(16,216,118,0.18);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .new-chat:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 17px 38px rgba(16,216,118,0.30);
+    }
+
+    .new-chat span {
+      font-size: 1.1rem;
+      transition: transform .3s ease;
+    }
+
+    .new-chat:hover span {
+      transform: rotate(90deg);
+    }
+
+    .sidebar-label {
+      margin: 0 10px 8px;
+      color: var(--muted-2);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-list {
+      list-style: none;
+    }
+
+    .sidebar-list li + li {
+      margin-top: 3px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 9px 11px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: color .25s ease, background .25s ease, border-color .25s ease, transform .25s ease;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link:focus-visible {
+      color: var(--text);
+      border-color: rgba(255,255,255,0.07);
+      outline: none;
+      background: rgba(255,255,255,0.055);
+      transform: translateX(4px);
+    }
+
+    .sidebar-link .side-icon {
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      transition: transform .25s ease, background .25s ease;
+    }
+
+    .sidebar-link:hover .side-icon {
+      transform: rotate(-7deg) scale(1.08);
+      background: rgba(16,216,118,0.10);
+    }
+
+    .side-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted-2);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.025);
+      transition: background .25s ease, box-shadow .25s ease;
+    }
+
+    .sidebar-link:hover .side-dot {
+      background: var(--primary);
+      box-shadow: 0 0 12px var(--primary);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      margin: 18px 4px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    }
+
+    .sidebar-status {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 18px;
+      padding: 10px 12px;
+      border: 1px solid rgba(16,216,118,0.16);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(16,216,118,0.055);
+      font-size: 0.72rem;
+    }
+
+    .status-light {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 14px var(--primary);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    .main-content {
+      min-width: 0;
+    }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+    .hero {
+      position: relative;
+      min-height: 610px;
+      display: grid;
+      grid-template-columns: 1.03fr .97fr;
+      align-items: center;
+      gap: 42px;
+      overflow: hidden;
+      padding: clamp(42px, 6vw, 86px);
+      border-radius: var(--radius-xl);
+      isolation: isolate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -180px;
+      bottom: -280px;
+      z-index: -1;
+      width: 620px;
+      height: 620px;
+      border: 1px solid rgba(0,231,255,0.10);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 70px rgba(0,231,255,0.025),
+        0 0 0 140px rgba(79,124,255,0.018);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 20px;
+      padding: 7px 12px;
+      border: 1px solid rgba(16,216,118,0.24);
+      border-radius: 100px;
+      color: #A7F8CF;
+      background: rgba(16,216,118,0.07);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      animation: fadeUp .7s ease both;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 12px var(--primary);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      max-width: 680px;
+      font-size: clamp(3.15rem, 5.3vw, 6.5rem);
+      line-height: .98;
+      letter-spacing: -0.065em;
+      animation: fadeUp .8s .08s ease both;
+    }
+
+    .gradient-text {
+      display: block;
+      padding-right: .07em;
+      padding-bottom: .08em;
+      color: transparent;
+      background: linear-gradient(100deg, var(--primary), var(--secondary), #8CA8FF, var(--primary));
+      background-size: 260% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: gradientMove 7s linear infinite;
+    }
+
+    .hero-subtitle {
+      margin-top: 22px;
+      color: var(--text);
+      font-size: clamp(1.05rem, 1.7vw, 1.35rem);
+      font-weight: 700;
+      animation: fadeUp .8s .16s ease both;
+    }
+
+    .hero-description {
+      max-width: 610px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .98rem;
+      animation: fadeUp .8s .22s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+      animation: fadeUp .8s .3s ease both;
+    }
+
+    .button {
+      min-height: 49px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 19px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      font-size: .85rem;
+      font-weight: 850;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .button-primary {
+      color: #04110A;
+      border-color: rgba(16,216,118,0.55);
+      background: linear-gradient(135deg, var(--primary), #5CF2A8);
+      box-shadow: 0 13px 34px rgba(16,216,118,0.21);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.055);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-3px);
+      outline: none;
+    }
+
+    .button-primary:hover,
+    .button-primary:focus-visible {
+      box-shadow: 0 18px 40px rgba(16,216,118,0.35);
+    }
+
+    .button-secondary:hover,
+    .button-secondary:focus-visible {
+      border-color: rgba(0,231,255,0.36);
+      background: rgba(0,231,255,0.08);
+      box-shadow: 0 14px 32px rgba(0,231,255,0.10);
+    }
+
+    /* CSS-only futuristic assistant visualization */
+    .ai-visual {
+      position: relative;
+      min-height: 420px;
+      display: grid;
+      place-items: center;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    .visual-card {
+      position: relative;
+      width: min(100%, 440px);
+      aspect-ratio: 1 / .9;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(16,216,118,0.15), transparent 30%),
+        linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.025));
+      transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+      box-shadow: 0 35px 80px rgba(0,0,0,.44), inset 0 0 40px rgba(255,255,255,0.02);
+    }
+
+    .visual-grid {
+      position: absolute;
+      inset: 0;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(0,231,255,.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,231,255,.14) 1px, transparent 1px);
+      background-size: 32px 32px;
+      -webkit-mask-image: radial-gradient(circle, #000, transparent 72%);
+      mask-image: radial-gradient(circle, #000, transparent 72%);
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(0,231,255,.20);
+      border-radius: 50%;
+      animation: rotate 13s linear infinite;
+    }
+
+    .orbit-one {
+      width: 258px;
+      height: 258px;
+    }
+
+    .orbit-two {
+      width: 330px;
+      height: 150px;
+      transform: rotate(28deg);
+      animation-duration: 17s;
+      animation-direction: reverse;
+    }
+
+    .orbit::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 18px var(--secondary);
+    }
+
+    .ai-core {
+      position: relative;
+      width: 142px;
+      height: 142px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(101,255,191,.44);
+      border-radius: 42px;
+      font-size: 3.2rem;
+      background: linear-gradient(145deg, rgba(16,216,118,.18), rgba(79,124,255,.18));
+      box-shadow:
+        0 0 0 12px rgba(16,216,118,.035),
+        0 0 55px rgba(16,216,118,.25),
+        inset 0 0 32px rgba(255,255,255,.07);
+      animation: floating 5s ease-in-out infinite, glowing 3.2s ease-in-out infinite;
+    }
+
+    .ai-core::before,
+    .ai-core::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 18px var(--primary);
+    }
+
+    .ai-core::before {
+      top: 22px;
+      right: 20px;
+    }
+
+    .ai-core::after {
+      bottom: 20px;
+      left: 23px;
+      background: var(--secondary);
+      box-shadow: 0 0 18px var(--secondary);
+    }
+
+    .visual-chip {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 12px;
+      color: var(--muted);
+      background: rgba(8,11,22,.68);
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      font-size: .68rem;
+      font-weight: 750;
+      animation: floating 4.6s ease-in-out infinite;
+    }
+
+    .visual-chip strong {
+      color: var(--text);
+    }
+
+    .chip-one { top: 46px; left: 24px; }
+    .chip-two { right: 22px; bottom: 50px; animation-delay: -1.7s; }
+    .chip-three { bottom: 38px; left: 28px; animation-delay: -3.1s; }
+
+    .chip-signal {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 12px var(--primary);
+    }
+
+    /* ================================================================
+       SECTIONS + CONTENT CARDS
+       ================================================================ */
+    .section {
+      padding: 92px 8px 0;
+    }
+
+    .section-heading {
+      max-width: 690px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 9px;
+      color: var(--primary);
+      font-size: .7rem;
+      font-weight: 850;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 27px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      box-shadow: 0 0 9px var(--primary);
+    }
+
+    .section h2 {
+      font-size: clamp(2rem, 3.5vw, 3.45rem);
+      line-height: 1.08;
+      letter-spacing: -.045em;
+    }
+
+    .section-heading p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .section-separator {
+      height: 1px;
+      margin-top: 92px;
+      background: linear-gradient(90deg, transparent, rgba(16,216,118,.28), rgba(0,231,255,.26), transparent);
+      box-shadow: 0 0 14px rgba(16,216,118,.12);
+    }
+
+    .lift-card {
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease, background .3s ease;
+    }
+
+    .lift-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(16,216,118,.28);
+      background: linear-gradient(145deg, rgba(255,255,255,.105), rgba(255,255,255,.035));
+      box-shadow: 0 28px 75px rgba(0,0,0,.34), 0 0 35px rgba(16,216,118,.08);
+    }
+
+    /* Chat showcase */
+    .chat-window {
+      overflow: hidden;
+      border-radius: 26px;
+    }
+
+    .chat-topbar {
+      min-height: 73px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.022);
+    }
+
+    .chat-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(16,216,118,.28);
+      border-radius: 13px;
+      background: rgba(16,216,118,.10);
+      box-shadow: inset 0 0 18px rgba(16,216,118,.08);
+    }
+
+    .chat-identity strong {
+      display: block;
+      font-size: .88rem;
+    }
+
+    .chat-identity small,
+    .chat-meta {
+      color: var(--muted-2);
+      font-size: .68rem;
+    }
+
+    .online {
+      color: var(--primary);
+    }
+
+    .chat-meta {
+      padding: 6px 9px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .chat-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: clamp(20px, 3vw, 36px);
+      background:
+        radial-gradient(circle at 8% 20%, rgba(79,124,255,.08), transparent 28%),
+        rgba(5,7,14,.25);
+    }
+
+    .message-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      animation: slideIn .7s ease both;
+    }
+
+    .message-row.user {
+      justify-content: flex-end;
+      animation-delay: .12s;
+    }
+
+    .message-row:nth-child(3) { animation-delay: .2s; }
+    .message-row:nth-child(4) { animation-delay: .3s; }
+
+    .mini-avatar {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 10px;
+      background: rgba(255,255,255,.05);
+      font-size: .78rem;
+    }
+
+    .message {
+      max-width: min(720px, 78%);
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 17px 17px 17px 5px;
+      color: #DCE4F6;
+      background: rgba(255,255,255,.055);
+      box-shadow: 0 12px 28px rgba(0,0,0,.14);
+      font-size: .84rem;
+    }
+
+    .user .message {
+      border-color: rgba(16,216,118,.22);
+      border-radius: 17px 17px 5px 17px;
+      color: #EDFFF6;
+      background: linear-gradient(135deg, rgba(16,216,118,.17), rgba(0,231,255,.09));
+    }
+
+    .message-time {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted-2);
+      font-size: .63rem;
+    }
+
+    .quote-block {
+      margin-top: 12px;
+      padding: 11px 13px;
+      border-left: 2px solid var(--primary);
+      border-radius: 0 10px 10px 0;
+      color: #D7FDEA;
+      background: rgba(16,216,118,.055);
+      font-style: italic;
+    }
+
+    .code-block {
+      margin-top: 12px;
+      overflow-x: auto;
+      padding: 14px;
+      border: 1px solid rgba(0,231,255,.12);
+      border-radius: 12px;
+      color: #B5F7E0;
+      background: rgba(3,6,12,.68);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: .74rem;
+      line-height: 1.7;
+      white-space: pre;
+    }
+
+    .code-key { color: #9D83FF; }
+    .code-name { color: #68E8FF; }
+    .code-value { color: #8DF4BD; }
+
+    .attachment-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .attachment {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+    }
+
+    .attachment-icon {
+      width: 37px;
+      height: 37px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(79,124,255,.14);
+    }
+
+    .attachment strong {
+      display: block;
+      color: var(--text);
+      font-size: .73rem;
+    }
+
+    .attachment small {
+      color: var(--muted-2);
+      font-size: .64rem;
+    }
+
+    .image-placeholder {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(138,92,255,.16), rgba(0,231,255,.08)),
+        rgba(255,255,255,.03);
+    }
+
+    .image-placeholder::after {
+      content: "";
+      position: absolute;
+      right: -15px;
+      bottom: -25px;
+      width: 70px;
+      height: 70px;
+      border: 1px solid rgba(0,231,255,.20);
+      border-radius: 50%;
+      box-shadow: 0 0 0 12px rgba(0,231,255,.025);
+    }
+
+    .typing-bubble {
+      display: flex;
+      gap: 5px;
+      width: fit-content;
+      padding: 11px 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 15px 15px 15px 5px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .typing-bubble span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: pulse 1.25s ease-in-out infinite;
+    }
+
+    .typing-bubble span:nth-child(2) { animation-delay: .15s; }
+    .typing-bubble span:nth-child(3) { animation-delay: .3s; }
+
+    .chat-composer {
+      padding: 16px 20px 20px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      background: rgba(5,7,14,.4);
+    }
+
+    .composer-inner {
+      min-height: 53px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 7px 8px 7px 15px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 15px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .composer-placeholder {
+      flex: 1;
+      color: var(--muted-2);
+      font-size: .8rem;
+    }
+
+    .composer-send {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      color: #04110A;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .composer-send:hover {
+      transform: rotate(-8deg) scale(1.05);
+      box-shadow: 0 0 22px rgba(16,216,118,.28);
+    }
+
+    /* Quick action cards */
+    .quick-grid,
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .quick-card {
+      min-height: 176px;
+      padding: 22px;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+    }
+
+    .quick-card::after {
+      content: "";
+      position: absolute;
+      right: -35px;
+      bottom: -45px;
+      width: 110px;
+      height: 110px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 50%;
+      transition: transform .4s ease, border-color .4s ease;
+    }
+
+    .quick-card:hover::after {
+      transform: scale(1.3);
+      border-color: rgba(16,216,118,.22);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 13px;
+      background: linear-gradient(145deg, rgba(16,216,118,.13), rgba(79,124,255,.10));
+      font-size: 1.25rem;
+      transition: transform .35s ease, box-shadow .35s ease;
+    }
+
+    .quick-card:hover .card-icon,
+    .feature-card:hover .card-icon {
+      transform: rotate(-8deg) scale(1.08);
+      box-shadow: 0 0 24px rgba(16,216,118,.16);
+    }
+
+    .quick-card h3,
+    .feature-card h3 {
+      font-size: .95rem;
+      letter-spacing: -.015em;
+    }
+
+    .quick-card p,
+    .feature-card p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+
+    .quick-arrow {
+      position: absolute;
+      right: 18px;
+      bottom: 16px;
+      color: var(--muted-2);
+      transition: color .25s ease, transform .25s ease;
+    }
+
+    .quick-card:hover .quick-arrow {
+      color: var(--primary);
+      transform: translate(3px, -3px);
+    }
+
+    /* Feature cards */
+    .feature-card {
+      min-height: 232px;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+    }
+
+    .feature-card .card-icon {
+      margin-bottom: 30px;
+    }
+
+    .feature-index {
+      position: absolute;
+      top: 18px;
+      right: 20px;
+      color: rgba(255,255,255,.20);
+      font-size: .67rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+
+    .feature-line {
+      width: 34px;
+      height: 2px;
+      margin-top: 16px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width .35s ease;
+    }
+
+    .feature-card:hover .feature-line {
+      width: 64px;
+    }
+
+    /* Statistics */
+    .stats-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    .stat {
+      position: relative;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    .stat + .stat::before {
+      content: "";
+      position: absolute;
+      top: 28px;
+      bottom: 28px;
+      left: 0;
+      width: 1px;
+      background: linear-gradient(transparent, rgba(255,255,255,.13), transparent);
+    }
+
+    .stat-number {
+      color: transparent;
+      background: linear-gradient(120deg, #FFFFFF, #9AF8CA, #8BEAFF);
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-size: clamp(2.2rem, 3.6vw, 4rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -.055em;
+      text-shadow: 0 0 30px rgba(16,216,118,.10);
+    }
+
+    .stat-label {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* Testimonials */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .testimonial-card {
+      min-height: 270px;
+      padding: 25px;
+      border-radius: var(--radius-lg);
+    }
+
+    .testimonial-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .review-avatar {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(138,92,255,.16), rgba(0,231,255,.10));
+      font-size: 1.25rem;
+      transition: transform .3s ease;
+    }
+
+    .testimonial-card:hover .review-avatar {
+      transform: rotate(7deg) scale(1.07);
+    }
+
+    .reviewer strong {
+      display: block;
+      font-size: .84rem;
+    }
+
+    .reviewer small {
+      color: var(--muted-2);
+      font-size: .67rem;
+    }
+
+    .stars {
+      color: #FFD76A;
+      font-size: .68rem;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .review-text {
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: .85rem;
+      line-height: 1.78;
+    }
+
+    .review-mark {
+      position: absolute;
+      right: 22px;
+      bottom: 6px;
+      color: rgba(16,216,118,.09);
+      font-family: Georgia, serif;
+      font-size: 5rem;
+      line-height: 1;
+    }
+
+    /* Contact */
+    .contact-panel {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 48px;
+      padding: clamp(28px, 5vw, 58px);
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+    }
+
+    .contact-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .contact-copy h2 {
+      margin-top: 10px;
+    }
+
+    .contact-copy > p {
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .contact-details {
+      display: grid;
+      gap: 10px;
+      margin-top: 36px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 13px;
+      background: rgba(255,255,255,.035);
+      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .contact-item:hover {
+      transform: translateX(4px);
+      border-color: rgba(16,216,118,.25);
+      background: rgba(16,216,118,.05);
+    }
+
+    .contact-item-icon {
+      width: 37px;
+      height: 37px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: 11px;
+      background: rgba(16,216,118,.09);
+    }
+
+    .contact-item small {
+      display: block;
+      color: var(--muted-2);
+      font-size: .62rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .contact-item a,
+    .contact-item strong {
+      display: block;
+      overflow-wrap: anywhere;
+      color: #EDF5FF;
+      font-size: .76rem;
+      font-weight: 700;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 15px;
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: var(--radius-lg);
+      background: rgba(4,7,14,.36);
+      box-shadow: inset 0 1px rgba(255,255,255,.035);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 13px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: .7rem;
+      font-weight: 750;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px;
+      outline: none;
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+    .field input {
+      height: 48px;
+      padding: 0 14px;
+    }
+
+    .field textarea {
+      min-height: 144px;
+      padding: 13px 14px;
+      resize: vertical;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #66718A;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: rgba(0,231,255,.38);
+      background: rgba(0,231,255,.035);
+      box-shadow: 0 0 0 4px rgba(0,231,255,.055);
+    }
+
+    .submit-button {
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 3px;
+      border: 1px solid rgba(16,216,118,.50);
+      border-radius: 13px;
+      color: #03110A;
+      cursor: pointer;
+      font-size: .83rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 14px 34px rgba(16,216,118,.18);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(16,216,118,.28);
+    }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .site-footer {
+      position: relative;
+      margin-top: 92px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.08);
+      background: rgba(4,6,13,.62);
+    }
+
+    .footer-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--primary), var(--secondary), var(--accent), transparent 95%);
+      background-size: 220% 100%;
+      animation: gradientMove 7s linear infinite;
+      box-shadow: 0 0 18px rgba(16,216,118,.26);
+    }
+
+    .footer-inner {
+      width: min(1270px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 52px 0 27px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.45fr .7fr .7fr 1.15fr;
+      gap: 38px;
+    }
+
+    .footer-intro p {
+      max-width: 330px;
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 15px;
+      color: var(--text);
+      font-size: .74rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 9px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      color: var(--muted);
+      font-size: .76rem;
+      transition: color .25s ease, transform .25s ease;
+    }
+
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+      color: var(--primary);
+      outline: none;
+      transform: translateX(4px);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 9px;
+      margin-top: 17px;
+    }
+
+    .social-link {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 11px;
+      background: rgba(255,255,255,.04);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-3px) rotate(-5deg);
+      border-color: rgba(16,216,118,.35);
+      box-shadow: 0 10px 28px rgba(16,216,118,.12);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 44px;
+      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      color: var(--muted-2);
+      font-size: .7rem;
+    }
+
+    .footer-bottom span:last-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* ================================================================
+       ANIMATION LIBRARY
+       ================================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floating {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: .45; transform: scale(.85); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes glowing {
+      0%, 100% { box-shadow: 0 0 0 12px rgba(16,216,118,.035), 0 0 42px rgba(16,216,118,.18), inset 0 0 32px rgba(255,255,255,.07); }
+      50% { box-shadow: 0 0 0 17px rgba(16,216,118,.025), 0 0 72px rgba(0,231,255,.28), inset 0 0 38px rgba(255,255,255,.10); }
+    }
+
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes shine {
+      0%, 32% { transform: rotate(-45deg) translateY(-48px); }
+      55%, 100% { transform: rotate(-45deg) translateY(48px); }
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-22px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes blobMove {
+      0% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(65px, -40px, 0) scale(1.12); }
+      100% { transform: translate3d(-35px, 70px, 0) scale(.92); }
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ================================================================
+       RESPONSIVE LAYOUT
+       ================================================================ */
+    @media (max-width: 1180px) {
+      .nav-shell {
+        grid-template-columns: auto 1fr;
+      }
+
+      .main-nav {
+        display: none;
+      }
+
+      .app-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: relative;
+        top: auto;
+        min-height: auto;
+        display: grid;
+        grid-template-columns: 185px 1fr 1fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .new-chat {
+        margin: 0;
+      }
+
+      .sidebar-group {
+        min-width: 0;
+      }
+
+      .sidebar-group.recent .sidebar-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3px;
+      }
+
+      .sidebar-divider,
+      .sidebar-status {
+        display: none;
+      }
+
+      .sidebar-link {
+        padding: 7px 9px;
+      }
+
+      .sidebar-group.recent .sidebar-list li:nth-child(n+5) {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy {
+        max-width: 780px;
+      }
+
+      .ai-visual {
+        min-height: 390px;
+      }
+
+      .visual-card {
+        max-width: 560px;
+        aspect-ratio: 1.35 / 1;
+      }
+
+      .contact-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      :root {
+        --header-height: 70px;
+      }
+
+      .nav-shell,
+      .app-shell,
+      .footer-inner {
+        width: min(100% - 24px, 720px);
+      }
+
+      .search-box {
+        width: 42px;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .search-box input {
+        display: none;
+      }
+
+      .search-box:focus-within {
+        width: 42px;
+      }
+
+      .sidebar {
+        grid-template-columns: 1fr;
+        padding: 14px;
+      }
+
+      .sidebar-group {
+        display: none;
+      }
+
+      .quick-grid,
+      .feature-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .stats-panel {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(3)::before {
+        display: none;
+      }
+
+      .stat:nth-child(n+3)::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 24px;
+        left: 24px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      }
+
+      .testimonial-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .nav-shell {
+        gap: 10px;
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .nav-actions {
+        gap: 6px;
+      }
+
+      .icon-button,
+      .profile-button,
+      .search-box {
+        width: 38px;
+        height: 38px;
+      }
+
+      .app-shell {
+        margin-top: 12px;
+        gap: 12px;
+      }
+
+      .hero {
+        gap: 24px;
+        padding: 34px 20px 26px;
+        border-radius: 22px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 14vw, 4rem);
+      }
+
+      .hero-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .ai-visual {
+        min-height: 310px;
+      }
+
+      .visual-card {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        transform: none;
+      }
+
+      .orbit-one { width: 190px; height: 190px; }
+      .orbit-two { width: 250px; height: 116px; }
+      .ai-core { width: 112px; height: 112px; border-radius: 34px; font-size: 2.5rem; }
+      .chip-one { top: 24px; left: 15px; }
+      .chip-two { right: 15px; bottom: 28px; }
+      .chip-three { display: none; }
+
+      .section {
+        padding-top: 70px;
+      }
+
+      .section-separator {
+        margin-top: 70px;
+      }
+
+      .quick-grid,
+      .feature-grid,
+      .testimonial-grid,
+      .footer-grid,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-meta {
+        display: none;
+      }
+
+      .chat-topbar,
+      .chat-composer {
+        padding-right: 14px;
+        padding-left: 14px;
+      }
+
+      .chat-feed {
+        padding: 18px 12px;
+      }
+
+      .message {
+        max-width: 86%;
+      }
+
+      .attachment-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .stat {
+        min-height: 145px;
+      }
+
+      .stat + .stat::before {
+        top: 0;
+        right: 24px;
+        bottom: auto;
+        left: 24px;
+        width: auto;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      }
+
+      .stat:nth-child(n+3)::after {
+        display: none;
+      }
+
+      .contact-panel {
+        gap: 30px;
+        padding: 24px 16px;
+        border-radius: 22px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body id="home">
+  <!-- Ambient visual layer -->
+  <div class="ambient" aria-hidden="true">
+    <div class="blob blob-one"></div>
+    <div class="blob blob-two"></div>
+    <div class="blob blob-three"></div>
+  </div>
+
+  <!-- Sticky global navigation -->
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="#home" aria-label="Shashwat AI home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span class="brand-name">Shashwat <span>AI</span></span>
+      </a>
+
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#chats">Chats</a>
+        <a href="#features">Features</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <form class="search-box" action="#chats" role="search">
+          <button class="search-submit" type="submit" aria-label="Submit search">⌕</button>
+          <input type="search" name="q" placeholder="Search anything…" aria-label="Search">
+        </form>
+        <button class="icon-button" type="button" aria-label="Notifications">◉</button>
+        <button class="profile-button" type="button" aria-label="Open Shashwat's profile">SM</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <!-- Dashboard navigation sidebar -->
+    <aside class="sidebar glass" aria-label="Assistant dashboard">
+      <a class="new-chat" href="#chats"><span aria-hidden="true">＋</span> New Chat</a>
+
+      <div class="sidebar-group recent">
+        <p class="sidebar-label">Recent Chats</p>
+        <ul class="sidebar-list">
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>HTML Project</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>CSS Guide</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>Portfolio</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>AI Notes</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>Design Ideas</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>Coding Help</a></li>
+          <li><a class="sidebar-link" href="#chats"><span class="side-dot"></span>Web Templates</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="sidebar-group">
+        <p class="sidebar-label">Quick Links</p>
+        <ul class="sidebar-list">
+          <li><a class="sidebar-link" href="#features"><span class="side-icon">⚙</span>Settings</a></li>
+          <li><a class="sidebar-link" href="#contact"><span class="side-icon">?</span>Help Center</a></li>
+          <li><a class="sidebar-link" href="#contact"><span class="side-icon">✦</span>Feedback</a></li>
+          <li><a class="sidebar-link" href="#home"><span class="side-icon">↗</span>Logout</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-status">
+        <span class="status-light"></span>
+        <span>All intelligence systems operational</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Hero -->
+      <section class="hero glass" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Now thinking at light speed
+          </div>
+          <h1 id="hero-title">
+            Your Intelligent
+            <span class="gradient-text">AI Assistant</span>
+          </h1>
+          <p class="hero-subtitle">One workspace. Infinite ways to think.</p>
+          <p class="hero-description">
+            Turn questions into clarity, ideas into polished work, and ambitious projects into your next achievement—with an assistant designed to keep up.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#chats">Start a conversation <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="#features">Explore intelligence <span aria-hidden="true">✦</span></a>
+          </div>
+        </div>
+
+        <div class="ai-visual" role="img" aria-label="Animated neural intelligence visualization">
+          <div class="visual-card glass">
+            <div class="visual-grid" aria-hidden="true"></div>
+            <div class="orbit orbit-one" aria-hidden="true"></div>
+            <div class="orbit orbit-two" aria-hidden="true"></div>
+            <div class="ai-core" aria-hidden="true">✦</div>
+            <div class="visual-chip chip-one">
+              <span class="chip-signal"></span>
+              <span><strong>Context</strong> synchronized</span>
+            </div>
+            <div class="visual-chip chip-two">
+              <span class="chip-signal"></span>
+              <span><strong>0.4s</strong> response time</span>
+            </div>
+            <div class="visual-chip chip-three">
+              <span class="chip-signal"></span>
+              <span><strong>128K</strong> memory</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conversation showcase -->
+      <section class="section" id="chats" aria-labelledby="chats-title">
+        <div class="section-heading">
+          <div class="section-kicker">Live conversation</div>
+          <h2 id="chats-title">Complex work, made conversational.</h2>
+          <p>A focused space where research, files, code, and ideas come together without breaking your flow.</p>
+        </div>
+
+        <div class="chat-window glass">
+          <div class="chat-topbar">
+            <div class="chat-identity">
+              <div class="chat-avatar" aria-hidden="true">✦</div>
+              <div>
+                <strong>Shashwat Intelligence</strong>
+                <small><span class="online">●</span> Online · Ready to collaborate</small>
+              </div>
+            </div>
+            <span class="chat-meta">Creative workspace · Today</span>
+          </div>
+
+          <div class="chat-feed">
+            <div class="message-row user">
+              <div class="message">
+                Help me shape a simple launch page for a productivity app. I want it to feel confident, useful, and human.
+                <span class="message-time">You · 10:42 AM</span>
+              </div>
+              <div class="mini-avatar" aria-hidden="true">S</div>
+            </div>
+
+            <div class="message-row">
+              <div class="mini-avatar" aria-hidden="true">✦</div>
+              <div class="message">
+                Absolutely. I’d lead with the transformation—not the feature list. Your clearest positioning could be:
+                <blockquote class="quote-block">“Make space for the work that matters.”</blockquote>
+                Then support it with one precise promise, a focused product preview, and a low-friction action.
+                <span class="message-time">AI · 10:42 AM</span>
+              </div>
+            </div>
+
+            <div class="message-row user">
+              <div class="message">
+                Great. Can you draft the first feature card and check the two files I attached?
+                <div class="attachment-grid">
+                  <div class="attachment">
+                    <div class="attachment-icon" aria-hidden="true">📄</div>
+                    <div><strong>launch-notes.pdf</strong><small>2.4 MB · PDF</small></div>
+                  </div>
+                  <div class="attachment image-placeholder">
+                    <div class="attachment-icon" aria-hidden="true">◫</div>
+                    <div><strong>product-preview.png</strong><small>1600 × 900 · Image</small></div>
+                  </div>
+                </div>
+                <span class="message-time">You · 10:44 AM</span>
+              </div>
+              <div class="mini-avatar" aria-hidden="true">S</div>
+            </div>
+
+            <div class="message-row">
+              <div class="mini-avatar" aria-hidden="true">✦</div>
+              <div class="message">
+                The files align well with a clarity-first message. Here’s a clean starting point for the card:
+                <div class="code-block"><span class="code-key">&lt;article</span> <span class="code-name">class</span>=<span class="code-value">"feature"</span><span class="code-key">&gt;</span>
+  <span class="code-key">&lt;h3&gt;</span>Protect your focus<span class="code-key">&lt;/h3&gt;</span>
+  <span class="code-key">&lt;p&gt;</span>Turn scattered tasks into one clear next move.<span class="code-key">&lt;/p&gt;</span>
+<span class="code-key">&lt;/article&gt;</span></div>
+                <span class="message-time">AI · 10:44 AM</span>
+              </div>
+            </div>
+
+            <div class="message-row" role="status" aria-label="AI is typing">
+              <div class="mini-avatar" aria-hidden="true">✦</div>
+              <div class="typing-bubble" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+
+          <div class="chat-composer">
+            <div class="composer-inner">
+              <span aria-hidden="true">＋</span>
+              <span class="composer-placeholder">Ask anything, attach a file, or start with an idea…</span>
+              <button class="composer-send" type="button" aria-label="Send message">↗</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-separator" aria-hidden="true"></div>
+
+      <!-- Quick actions -->
+      <section class="section" id="dashboard" aria-labelledby="actions-title">
+        <div class="section-heading">
+          <div class="section-kicker">Quick actions</div>
+          <h2 id="actions-title">Start with what you need.</h2>
+          <p>Six thoughtful shortcuts to turn a blank page into forward motion.</p>
+        </div>
+
+        <div class="quick-grid">
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">🤖</div>
+            <h3>Start Chat</h3>
+            <p>Bring any question, task, or unfinished thought.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">📄</div>
+            <h3>Summarize Text</h3>
+            <p>Extract the signal from long documents and notes.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">💻</div>
+            <h3>Generate Code</h3>
+            <p>Move from requirements to clean implementation faster.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">🎨</div>
+            <h3>Create Design</h3>
+            <p>Explore polished directions for your next interface.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">📚</div>
+            <h3>Learn Faster</h3>
+            <p>Break difficult topics into clear, memorable lessons.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="quick-card glass lift-card" href="#chats">
+            <div class="card-icon" aria-hidden="true">🌍</div>
+            <h3>Translate</h3>
+            <p>Communicate naturally across languages and cultures.</p>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- AI features -->
+      <section class="section" id="features" aria-labelledby="features-title">
+        <div class="section-heading">
+          <div class="section-kicker">Built for momentum</div>
+          <h2 id="features-title">Intelligence that stays out of your way.</h2>
+          <p>Purposeful capabilities, tuned to make every exchange faster, safer, and more useful.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">01</span>
+            <div class="card-icon" aria-hidden="true">🤖</div>
+            <h3>Smart AI</h3>
+            <p>Reasoning that understands nuance, follows intent, and turns ambiguity into useful next steps.</p>
+            <div class="feature-line"></div>
+          </article>
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">02</span>
+            <div class="card-icon" aria-hidden="true">⚡</div>
+            <h3>Fast Response</h3>
+            <p>Answers arrive at the speed of thought so your best ideas never lose their momentum.</p>
+            <div class="feature-line"></div>
+          </article>
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">03</span>
+            <div class="card-icon" aria-hidden="true">🔒</div>
+            <h3>Secure by Design</h3>
+            <p>A privacy-minded workspace built to keep your conversations focused and protected.</p>
+            <div class="feature-line"></div>
+          </article>
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">04</span>
+            <div class="card-icon" aria-hidden="true">🌎</div>
+            <h3>Multi-language</h3>
+            <p>Write, understand, and collaborate naturally across languages without losing your voice.</p>
+            <div class="feature-line"></div>
+          </article>
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">05</span>
+            <div class="card-icon" aria-hidden="true">📄</div>
+            <h3>File Analysis</h3>
+            <p>Transform dense documents, notes, and project files into structured, actionable insight.</p>
+            <div class="feature-line"></div>
+          </article>
+          <article class="feature-card glass lift-card">
+            <span class="feature-index">06</span>
+            <div class="card-icon" aria-hidden="true">🧠</div>
+            <h3>Context Memory</h3>
+            <p>Keep the important details in view across longer projects and connected conversations.</p>
+            <div class="feature-line"></div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Statistics -->
+      <section class="section" aria-labelledby="stats-title">
+        <div class="section-heading">
+          <div class="section-kicker">Trusted every day</div>
+          <h2 id="stats-title">A growing intelligence network.</h2>
+        </div>
+
+        <div class="stats-panel glass">
+          <div class="stat">
+            <span class="stat-number">120K+</span>
+            <span class="stat-label">Chats</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">45K+</span>
+            <span class="stat-label">Users</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">99%</span>
+            <span class="stat-label">Satisfaction</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">24/7</span>
+            <span class="stat-label">Availability</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="section" aria-labelledby="testimonials-title">
+        <div class="section-heading">
+          <div class="section-kicker">Loved by curious minds</div>
+          <h2 id="testimonials-title">Built into their best work.</h2>
+          <p>From the first sketch to the final polish, Shashwat AI helps people move with clarity.</p>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card glass lift-card">
+            <div class="testimonial-top">
+              <div class="reviewer">
+                <div class="review-avatar" aria-hidden="true">🧑🏽‍💻</div>
+                <div><strong>Aarav Patel</strong><small>Product Designer</small></div>
+              </div>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            </div>
+            <p class="review-text">“It feels less like using a tool and more like having a calm, sharp teammate who already understands where the project is going.”</p>
+            <span class="review-mark" aria-hidden="true">”</span>
+          </article>
+
+          <article class="testimonial-card glass lift-card">
+            <div class="testimonial-top">
+              <div class="reviewer">
+                <div class="review-avatar" aria-hidden="true">👩🏻‍🎓</div>
+                <div><strong>Meera Shah</strong><small>Graduate Student</small></div>
+              </div>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            </div>
+            <p class="review-text">“Dense topics finally feel approachable. I can explore an idea, challenge my understanding, and leave with notes I actually remember.”</p>
+            <span class="review-mark" aria-hidden="true">”</span>
+          </article>
+
+          <article class="testimonial-card glass lift-card">
+            <div class="testimonial-top">
+              <div class="reviewer">
+                <div class="review-avatar" aria-hidden="true">🧑🏾‍🚀</div>
+                <div><strong>Kabir Rao</strong><small>Indie Developer</small></div>
+              </div>
+              <div class="stars" role="img" aria-label="5 out of 5 stars">★★★★★</div>
+            </div>
+            <p class="review-text">“The difference is focus. It helps me get from an unclear requirement to clean, working code without adding noise to the process.”</p>
+            <span class="review-mark" aria-hidden="true">”</span>
+          </article>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-panel glass">
+          <div class="contact-copy">
+            <div>
+              <div class="section-kicker">Let’s connect</div>
+              <h2 id="contact-title">Have an idea worth exploring?</h2>
+              <p>Share what you’re building, learning, or imagining. Shashwat would love to hear from you.</p>
+            </div>
+
+            <div class="contact-details">
+              <div class="contact-item">
+                <span class="contact-item-icon" aria-hidden="true">✦</span>
+                <span><small>Owner</small><strong>Shashwat</strong></span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-item-icon" aria-hidden="true">✉</span>
+                <span><small>Email</small><a href="mailto:shashwatmishravro@gmail.com">shashwatmishravro@gmail.com</a></span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-item-icon" aria-hidden="true">◎</span>
+                <span><small>Instagram</small><a href="https://www.instagram.com/technology_mms.192" target="_blank" rel="noopener">@technology_mms.192</a></span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" action="mailto:shashwatmishravro@gmail.com" method="post" enctype="text/plain">
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Your name</label>
+                <input id="name" name="name" type="text" placeholder="Enter your name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="field">
+              <label for="message">Your message</label>
+              <textarea id="message" name="message" placeholder="Tell us a little about your idea…" required></textarea>
+            </div>
+            <button class="submit-button" type="submit">Send message <span aria-hidden="true">↗</span></button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-line" aria-hidden="true"></div>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-intro">
+          <a class="brand" href="#home">
+            <span class="brand-mark" aria-hidden="true">✦</span>
+            <span class="brand-name">Shashwat <span>AI</span></span>
+          </a>
+          <p>A thoughtful AI workspace for clearer thinking, faster creating, and more ambitious work.</p>
+        </div>
+
+        <div class="footer-column">
+          <h3>Navigate</h3>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#chats">Chats</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Quick links</h3>
+          <ul class="footer-links">
+            <li><a href="#features">Smart AI</a></li>
+            <li><a href="#features">File Analysis</a></li>
+            <li><a href="#contact">Help Center</a></li>
+            <li><a href="#contact">Feedback</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Connect with Shashwat</h3>
+          <ul class="footer-links">
+            <li><a href="mailto:shashwatmishravro@gmail.com">shashwatmishravro@gmail.com</a></li>
+            <li><a href="https://www.instagram.com/technology_mms.192" target="_blank" rel="noopener">@technology_mms.192</a></li>
+          </ul>
+          <div class="footer-social">
+            <a class="social-link" href="https://www.instagram.com/technology_mms.192" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+            <a class="social-link" href="mailto:shashwatmishravro@gmail.com" aria-label="Email">✉</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Shashwat. All Rights Reserved.</span>
+        <span><i class="status-light"></i> Crafted for the future</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
