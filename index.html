@@ -958,13 +958,32 @@
     }
 
     .chat-feed {
+      min-height: 440px;
+      max-height: 620px;
       display: flex;
       flex-direction: column;
       gap: 20px;
+      overflow-y: auto;
       padding: clamp(20px, 3vw, 36px);
+      scroll-behavior: smooth;
       background:
         radial-gradient(circle at 8% 20%, rgba(79,124,255,.08), transparent 28%),
         rgba(5,7,14,.25);
+    }
+
+    .chat-feed::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    .chat-feed::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .chat-feed::-webkit-scrollbar-thumb {
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: rgba(16,216,118,.28);
+      background-clip: padding-box;
     }
 
     .message-row {
@@ -1003,6 +1022,11 @@
       background: rgba(255,255,255,.055);
       box-shadow: 0 12px 28px rgba(0,0,0,.14);
       font-size: .84rem;
+    }
+
+    .message-copy {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
     }
 
     .user .message {
@@ -1127,27 +1151,86 @@
     .typing-bubble span:nth-child(2) { animation-delay: .15s; }
     .typing-bubble span:nth-child(3) { animation-delay: .3s; }
 
+    .typing-row[hidden] {
+      display: none;
+    }
+
+    .chat-quick-prompts {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 13px 20px 0;
+      border-top: 1px solid rgba(255,255,255,.06);
+      background: rgba(5,7,14,.4);
+      scrollbar-width: none;
+    }
+
+    .chat-quick-prompts::-webkit-scrollbar {
+      display: none;
+    }
+
+    .prompt-chip {
+      flex: 0 0 auto;
+      padding: 8px 11px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 100px;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(255,255,255,.035);
+      font-size: .68rem;
+      font-weight: 720;
+      transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+
+    .prompt-chip:hover,
+    .prompt-chip:focus-visible {
+      color: var(--text);
+      border-color: rgba(16,216,118,.3);
+      outline: none;
+      background: rgba(16,216,118,.08);
+      transform: translateY(-2px);
+    }
+
     .chat-composer {
-      padding: 16px 20px 20px;
-      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 12px 20px 20px;
       background: rgba(5,7,14,.4);
     }
 
     .composer-inner {
       min-height: 53px;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 12px;
-      padding: 7px 8px 7px 15px;
+      padding: 7px 8px 7px 13px;
       border: 1px solid rgba(255,255,255,.09);
       border-radius: 15px;
       background: rgba(255,255,255,.045);
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
     }
 
-    .composer-placeholder {
+    .composer-inner:focus-within {
+      border-color: rgba(0,231,255,.34);
+      background: rgba(0,231,255,.03);
+      box-shadow: 0 0 0 4px rgba(0,231,255,.05), 0 0 24px rgba(0,231,255,.06);
+    }
+
+    .assistant-input {
       flex: 1;
-      color: var(--muted-2);
+      min-height: 38px;
+      max-height: 145px;
+      padding: 9px 0 7px;
+      overflow-y: auto;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      resize: none;
+      background: transparent;
       font-size: .8rem;
+      line-height: 1.5;
+    }
+
+    .assistant-input::placeholder {
+      color: var(--muted-2);
     }
 
     .composer-send {
@@ -1162,9 +1245,58 @@
       transition: transform .25s ease, box-shadow .25s ease;
     }
 
-    .composer-send:hover {
+    .composer-send:hover,
+    .composer-send:focus-visible {
       transform: rotate(-8deg) scale(1.05);
+      outline: none;
       box-shadow: 0 0 22px rgba(16,216,118,.28);
+    }
+
+    .composer-send:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .composer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 8px;
+      color: var(--muted-2);
+      font-size: .62rem;
+    }
+
+    .memory-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .memory-note::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 8px rgba(16,216,118,.55);
+    }
+
+    .clear-chat {
+      padding: 3px 0;
+      color: var(--muted-2);
+      cursor: pointer;
+      background: transparent;
+      font-size: .62rem;
+      transition: color .25s ease;
+    }
+
+    .clear-chat:hover,
+    .clear-chat:focus-visible {
+      color: var(--secondary);
+      outline: none;
     }
 
     /* Quick action cards */
@@ -2044,7 +2176,7 @@
   <div class="app-shell">
     <!-- Dashboard navigation sidebar -->
     <aside class="sidebar glass" aria-label="Assistant dashboard">
-      <a class="new-chat" href="#chats"><span aria-hidden="true">＋</span> New Chat</a>
+      <a class="new-chat" id="newChatButton" href="#chats"><span aria-hidden="true">＋</span> New Chat</a>
 
       <div class="sidebar-group recent">
         <p class="sidebar-label">Recent Chats</p>
@@ -2134,75 +2266,46 @@
             <div class="chat-identity">
               <div class="chat-avatar" aria-hidden="true">✦</div>
               <div>
-                <strong>Shashwat Intelligence</strong>
-                <small><span class="online">●</span> Online · Ready to collaborate</small>
+                <strong>AURA · Shashwat Mind</strong>
+                <small><span class="online">●</span> Online · Thinking with you</small>
               </div>
             </div>
-            <span class="chat-meta">Creative workspace · Today</span>
+            <span class="chat-meta">Local intelligence · Private</span>
           </div>
 
-          <div class="chat-feed">
-            <div class="message-row user">
-              <div class="message">
-                Help me shape a simple launch page for a productivity app. I want it to feel confident, useful, and human.
-                <span class="message-time">You · 10:42 AM</span>
-              </div>
-              <div class="mini-avatar" aria-hidden="true">S</div>
-            </div>
-
+          <div class="chat-feed" id="chatFeed" role="log" aria-live="polite" aria-label="Conversation with AURA">
             <div class="message-row">
               <div class="mini-avatar" aria-hidden="true">✦</div>
               <div class="message">
-                Absolutely. I’d lead with the transformation—not the feature list. Your clearest positioning could be:
-                <blockquote class="quote-block">“Make space for the work that matters.”</blockquote>
-                Then support it with one precise promise, a focused product preview, and a low-friction action.
-                <span class="message-time">AI · 10:42 AM</span>
+                <div class="message-copy">Hi, I’m AURA—the mind inside Shashwat AI. I’m built to help you think clearly, shape ideas, plan projects, write, learn, design, and solve code problems.
+
+What are we creating today?</div>
+                <span class="message-time">AURA · Now</span>
               </div>
             </div>
-
-            <div class="message-row user">
-              <div class="message">
-                Great. Can you draft the first feature card and check the two files I attached?
-                <div class="attachment-grid">
-                  <div class="attachment">
-                    <div class="attachment-icon" aria-hidden="true">📄</div>
-                    <div><strong>launch-notes.pdf</strong><small>2.4 MB · PDF</small></div>
-                  </div>
-                  <div class="attachment image-placeholder">
-                    <div class="attachment-icon" aria-hidden="true">◫</div>
-                    <div><strong>product-preview.png</strong><small>1600 × 900 · Image</small></div>
-                  </div>
-                </div>
-                <span class="message-time">You · 10:44 AM</span>
-              </div>
-              <div class="mini-avatar" aria-hidden="true">S</div>
-            </div>
-
-            <div class="message-row">
-              <div class="mini-avatar" aria-hidden="true">✦</div>
-              <div class="message">
-                The files align well with a clarity-first message. Here’s a clean starting point for the card:
-                <div class="code-block"><span class="code-key">&lt;article</span> <span class="code-name">class</span>=<span class="code-value">"feature"</span><span class="code-key">&gt;</span>
-  <span class="code-key">&lt;h3&gt;</span>Protect your focus<span class="code-key">&lt;/h3&gt;</span>
-  <span class="code-key">&lt;p&gt;</span>Turn scattered tasks into one clear next move.<span class="code-key">&lt;/p&gt;</span>
-<span class="code-key">&lt;/article&gt;</span></div>
-                <span class="message-time">AI · 10:44 AM</span>
-              </div>
-            </div>
-
-            <div class="message-row" role="status" aria-label="AI is typing">
+            <div class="message-row typing-row" id="typingRow" role="status" aria-label="AURA is thinking" hidden>
               <div class="mini-avatar" aria-hidden="true">✦</div>
               <div class="typing-bubble" aria-hidden="true"><span></span><span></span><span></span></div>
             </div>
           </div>
 
-          <div class="chat-composer">
-            <div class="composer-inner">
-              <span aria-hidden="true">＋</span>
-              <span class="composer-placeholder">Ask anything, attach a file, or start with an idea…</span>
-              <button class="composer-send" type="button" aria-label="Send message">↗</button>
-            </div>
+          <div class="chat-quick-prompts" role="group" aria-label="Suggested prompts">
+            <button class="prompt-chip" type="button" data-prompt="Help me plan a website from scratch">Plan a website</button>
+            <button class="prompt-chip" type="button" data-prompt="Explain artificial intelligence in simple words">Explain AI simply</button>
+            <button class="prompt-chip" type="button" data-prompt="Give me five creative project ideas">Generate ideas</button>
+            <button class="prompt-chip" type="button" data-prompt="Help me debug my code">Debug code</button>
           </div>
+
+          <form class="chat-composer" id="assistantForm">
+            <div class="composer-inner">
+              <textarea class="assistant-input" id="assistantInput" name="message" rows="1" maxlength="2000" placeholder="Message AURA about an idea, question, design, or code…" aria-label="Message AURA" required></textarea>
+              <button class="composer-send" id="sendButton" type="submit" aria-label="Send message">↗</button>
+            </div>
+            <div class="composer-footer">
+              <span class="memory-note">Conversation remembers on this device</span>
+              <button class="clear-chat" id="clearChat" type="button">Clear conversation</button>
+            </div>
+          </form>
         </div>
       </section>
 
@@ -2484,5 +2587,323 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    /* ================================================================
+       AURA — SHASHWAT MIND
+       A private, browser-based conversational layer. Messages remain
+       on this device and are never sent to an external service.
+       ================================================================ */
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "shashwat-aura-conversation-v1";
+      const WELCOME_MESSAGE = "Hi, I’m AURA—the mind inside Shashwat AI. I’m built to help you think clearly, shape ideas, plan projects, write, learn, design, and solve code problems.\n\nWhat are we creating today?";
+
+      const chatFeed = document.getElementById("chatFeed");
+      const typingRow = document.getElementById("typingRow");
+      const assistantForm = document.getElementById("assistantForm");
+      const assistantInput = document.getElementById("assistantInput");
+      const sendButton = document.getElementById("sendButton");
+      const clearChatButton = document.getElementById("clearChat");
+      const newChatButton = document.getElementById("newChatButton");
+      const promptChips = document.querySelectorAll(".prompt-chip");
+
+      let conversation = [];
+      let isThinking = false;
+
+      /* Safe device-local memory */
+      const readConversation = () => {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (!Array.isArray(saved)) return [];
+          return saved
+            .filter(item => item && ["user", "assistant"].includes(item.role) && typeof item.text === "string")
+            .slice(-30);
+        } catch {
+          return [];
+        }
+      };
+
+      const saveConversation = () => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(conversation.slice(-30)));
+        } catch {
+          /* The assistant still works if browser storage is unavailable. */
+        }
+      };
+
+      const formatTime = timestamp => new Intl.DateTimeFormat([], {
+        hour: "numeric",
+        minute: "2-digit"
+      }).format(new Date(timestamp));
+
+      const scrollToLatest = () => {
+        chatFeed.scrollTop = chatFeed.scrollHeight;
+      };
+
+      /* Messages use textContent so user input can never become page markup. */
+      const renderMessage = message => {
+        const row = document.createElement("div");
+        row.className = `message-row${message.role === "user" ? " user" : ""}`;
+
+        const avatar = document.createElement("div");
+        avatar.className = "mini-avatar";
+        avatar.setAttribute("aria-hidden", "true");
+        avatar.textContent = message.role === "user" ? "S" : "✦";
+
+        const bubble = document.createElement("div");
+        bubble.className = "message";
+
+        const copy = document.createElement("div");
+        copy.className = "message-copy";
+        copy.textContent = message.text;
+
+        const time = document.createElement("span");
+        time.className = "message-time";
+        time.textContent = `${message.role === "user" ? "You" : "AURA"} · ${formatTime(message.time)}`;
+
+        bubble.append(copy, time);
+        if (message.role === "user") {
+          row.append(bubble, avatar);
+        } else {
+          row.append(avatar, bubble);
+        }
+        chatFeed.insertBefore(row, typingRow);
+      };
+
+      const addMessage = (role, text) => {
+        const message = { role, text: text.trim(), time: Date.now() };
+        conversation.push(message);
+        conversation = conversation.slice(-30);
+        renderMessage(message);
+        saveConversation();
+        scrollToLatest();
+      };
+
+      const resetConversation = () => {
+        conversation = [];
+        chatFeed.querySelectorAll(".message-row:not(.typing-row)").forEach(row => row.remove());
+        typingRow.hidden = true;
+        addMessage("assistant", WELCOME_MESSAGE);
+        assistantInput.value = "";
+        resizeInput();
+      };
+
+      /* Small language helpers keep AURA's replies relevant and varied. */
+      const containsAny = (text, terms) => terms.some(term => text.includes(term));
+
+      const stableChoice = (text, choices) => {
+        let hash = 0;
+        for (let index = 0; index < text.length; index += 1) {
+          hash = ((hash << 5) - hash + text.charCodeAt(index)) | 0;
+        }
+        return choices[Math.abs(hash) % choices.length];
+      };
+
+      const cleanTopic = text => text
+        .replace(/^(please\s+)?(help me|can you|could you|would you|i want to|tell me|explain|create|make|build|plan)\s+/i, "")
+        .replace(/[?!.,]+$/g, "")
+        .trim()
+        .slice(0, 120);
+
+      const summarizeText = source => {
+        const content = source
+          .replace(/^.*?\b(summarize|summary|shorten)\b\s*(this|the following|:|-)?\s*/i, "")
+          .trim();
+
+        if (content.length < 120) {
+          return "Send me the passage after “Summarize:” and I’ll turn it into a short overview with the main takeaway and action points.";
+        }
+
+        const sentences = content.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [content];
+        const selected = sentences.slice(0, 2).map(sentence => sentence.trim()).join(" ");
+        const words = content.toLowerCase().match(/[a-z]{5,}/g) || [];
+        const ignored = new Set(["about", "there", "their", "which", "would", "could", "should", "these", "those", "where", "after", "before"]);
+        const frequency = {};
+
+        words.forEach(word => {
+          if (!ignored.has(word)) frequency[word] = (frequency[word] || 0) + 1;
+        });
+
+        const themes = Object.entries(frequency)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3)
+          .map(([word]) => word);
+
+        return `Quick summary\n${selected}\n\nKey themes: ${themes.length ? themes.join(" · ") : "clarity · purpose · action"}`;
+      };
+
+      const createResponse = originalText => {
+        const text = originalText.trim();
+        const lower = text.toLowerCase();
+        const topic = cleanTopic(text) || "your idea";
+
+        if (/^(hi|hello|hey|namaste|yo|good (morning|afternoon|evening))\b/.test(lower)) {
+          return stableChoice(lower, [
+            "Hey! I’m here and ready. Bring me an idea, a question, a design challenge, or a piece of code—where should we begin?",
+            "Hello! Let’s make something thoughtful. What are you working on right now?",
+            "Hi there. I’m AURA, your thinking partner. Tell me the outcome you want, even if the idea is still rough."
+          ]);
+        }
+
+        if (containsAny(lower, ["who are you", "what are you", "your name", "are you real ai"])) {
+          return "I’m AURA, the local mind inside Shashwat AI. I’m a private browser-based assistant designed to organize thoughts, generate directions, structure plans, and guide creative or technical work. Your conversation stays on this device.";
+        }
+
+        if (containsAny(lower, ["thank you", "thanks", "thx", "great job", "awesome"])) {
+          return "You’re welcome. Keep going—I’m here for the next step whenever you’re ready.";
+        }
+
+        if (containsAny(lower, ["summarize", "summary", "shorten this"])) {
+          return summarizeText(text);
+        }
+
+        if (containsAny(lower, ["website", "landing page", "web page", "portfolio", "homepage"])) {
+          return `Let’s shape ${topic} into a clear website.\n\n1. Promise — state the transformation in one strong sentence.\n2. Proof — show the product, result, or most credible evidence early.\n3. Path — guide visitors through benefits in a simple visual rhythm.\n4. Action — use one primary call to action and repeat it with purpose.\n5. Polish — make spacing, contrast, speed, and mobile behavior feel effortless.\n\nStart by telling me the audience and the one action you want them to take.`;
+        }
+
+        if (containsAny(lower, ["code", "bug", "error", "debug", "html", "css", "javascript", "python", "api"])) {
+          const technology = containsAny(lower, ["python"]) ? "Python" :
+            containsAny(lower, ["javascript", " js "]) ? "JavaScript" :
+            containsAny(lower, ["css"]) ? "CSS" :
+            containsAny(lower, ["html"]) ? "HTML" : "your code";
+
+          return `I can help with ${technology}. Use this fast debugging path:\n\n1. Isolate the smallest part that still fails.\n2. Capture the exact error or unexpected result.\n3. Compare the inputs, state, and expected output.\n4. Fix the root condition, then test the edge cases.\n\nPaste the relevant snippet and tell me “expected vs. actual.” I’ll help you reason through it line by line.`;
+        }
+
+        if (containsAny(lower, ["design", "ui", "ux", "color", "layout", "logo", "interface"])) {
+          return `For ${topic}, I’d build the design around one recognizable idea rather than adding more decoration.\n\n• Focus: one dominant message per screen\n• System: repeat a small set of spacing, radius, and color rules\n• Contrast: let the primary action own the brightest accent\n• Motion: animate meaning—state changes, hierarchy, and feedback\n• Finish: test mobile first, then widen the composition\n\nTell me the audience and desired mood, and I’ll turn this into a concrete visual direction.`;
+        }
+
+        if (containsAny(lower, ["idea", "ideas", "brainstorm", "project"])) {
+          return `Here are five directions for ${topic}:\n\n1. A focused tool that solves one repeated frustration extremely well.\n2. A visual dashboard that turns complex information into one clear decision.\n3. A guided learning experience with tiny challenges and instant feedback.\n4. A community-powered library of useful templates and examples.\n5. A personal AI workspace that remembers goals and suggests the next move.\n\nChoose the one with the strongest pull, and I’ll develop its name, audience, features, and launch plan.`;
+        }
+
+        if (containsAny(lower, ["plan", "roadmap", "steps", "start", "organize", "schedule"])) {
+          return `Here’s a practical path for ${topic}:\n\n1. Define the exact outcome and who it helps.\n2. List the assumptions that must be true.\n3. Build the smallest version that proves the core value.\n4. Test it with real feedback, not imagined perfection.\n5. Improve the strongest signal and remove everything distracting.\n\nYour best first move: write the outcome in one sentence beginning with “This succeeds when…”`;
+        }
+
+        if (containsAny(lower, ["learn", "explain", "understand", "study", "teach me", "what is", "how does"])) {
+          return `Let’s make ${topic} easier to understand.\n\nUse three layers:\n• Simple model — describe it in one sentence without jargon.\n• Concrete example — connect it to something familiar.\n• Active check — explain it back or solve one tiny problem.\n\nTell me your current level—beginner, intermediate, or advanced—and I’ll teach it at exactly that depth.`;
+        }
+
+        if (containsAny(lower, ["write", "email", "caption", "post", "story", "content", "rewrite"])) {
+          return `I can help write ${topic}. A strong first draft needs three things:\n\n1. Purpose — what should the reader think, feel, or do?\n2. Voice — confident, friendly, premium, playful, or direct?\n3. Constraint — length, platform, and any must-include details.\n\nSend those three and I’ll shape a clean draft you can use immediately.`;
+        }
+
+        if (containsAny(lower, ["translate", "translation", "language"])) {
+          return "Tell me the target language and paste the exact text. I’ll help preserve the meaning, tone, and level of formality—not just swap words.";
+        }
+
+        if (containsAny(lower, ["date", "time today", "what time"])) {
+          return `It’s ${new Intl.DateTimeFormat([], {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+          }).format(new Date())} on your device.`;
+        }
+
+        if (lower.length < 18) {
+          return `I’m with you. Give me a little more context about “${topic}”—what result do you want, and what is getting in the way?`;
+        }
+
+        return stableChoice(lower, [
+          `I understand the direction: ${topic}.\n\nLet’s make it concrete. Define the desired outcome, the person it is for, and the biggest constraint. With those three anchors, I can turn the idea into a clear plan instead of generic advice.`,
+          `There’s something useful in “${topic}.” My first move would be to separate the goal from the method: what must be true at the end, regardless of how we get there?\n\nTell me that outcome, and I’ll propose the simplest strong route.`,
+          `Let’s work through ${topic} together.\n\nA good next step is to choose one lens: strategy, creative direction, writing, design, code, or learning. Name the lens and I’ll take the idea from broad to actionable.`
+        ]);
+      };
+
+      const resizeInput = () => {
+        assistantInput.style.height = "auto";
+        assistantInput.style.height = `${Math.min(assistantInput.scrollHeight, 145)}px`;
+      };
+
+      const sendMessage = async text => {
+        if (isThinking || !text.trim()) return;
+
+        isThinking = true;
+        addMessage("user", text);
+        assistantInput.value = "";
+        resizeInput();
+        assistantInput.disabled = true;
+        sendButton.disabled = true;
+        typingRow.hidden = false;
+        chatFeed.appendChild(typingRow);
+        scrollToLatest();
+
+        const response = createResponse(text);
+        const thinkingTime = Math.min(1400, 480 + text.length * 7);
+        await new Promise(resolve => setTimeout(resolve, thinkingTime));
+
+        typingRow.hidden = true;
+        addMessage("assistant", response);
+        assistantInput.disabled = false;
+        sendButton.disabled = false;
+        isThinking = false;
+        assistantInput.focus();
+      };
+
+      assistantForm.addEventListener("submit", event => {
+        event.preventDefault();
+        sendMessage(assistantInput.value);
+      });
+
+      assistantInput.addEventListener("input", resizeInput);
+      assistantInput.addEventListener("keydown", event => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          assistantForm.requestSubmit();
+        }
+      });
+
+      promptChips.forEach(chip => {
+        chip.addEventListener("click", () => {
+          assistantInput.value = chip.dataset.prompt || "";
+          resizeInput();
+          assistantForm.requestSubmit();
+        });
+      });
+
+      document.querySelectorAll(".quick-card").forEach(card => {
+        card.addEventListener("click", event => {
+          const action = card.querySelector("h3")?.textContent?.trim();
+          const actionPrompts = {
+            "Start Chat": "Help me turn a rough idea into a clear plan",
+            "Summarize Text": "Summarize: ",
+            "Generate Code": "Help me plan the code for ",
+            "Create Design": "Create a visual direction for ",
+            "Learn Faster": "Explain in simple words: ",
+            "Translate": "Translate into English: "
+          };
+
+          if (actionPrompts[action]) {
+            event.preventDefault();
+            document.getElementById("chats").scrollIntoView({ behavior: "smooth" });
+            assistantInput.value = actionPrompts[action];
+            resizeInput();
+            window.setTimeout(() => assistantInput.focus(), 500);
+          }
+        });
+      });
+
+      clearChatButton.addEventListener("click", resetConversation);
+      newChatButton.addEventListener("click", resetConversation);
+
+      /* Restore the latest device-local conversation. */
+      chatFeed.querySelectorAll(".message-row:not(.typing-row)").forEach(row => row.remove());
+      conversation = readConversation();
+      if (conversation.length === 0) {
+        conversation = [{ role: "assistant", text: WELCOME_MESSAGE, time: Date.now() }];
+        saveConversation();
+      }
+      conversation.forEach(renderMessage);
+      scrollToLatest();
+    })();
+  </script>
 </body>
 </html>
