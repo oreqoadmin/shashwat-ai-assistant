@@ -1167,6 +1167,10 @@
       border-radius: 26px;
     }
 
+    body.chat-immersive {
+      overflow: hidden;
+    }
+
     .chat-topbar {
       min-height: 73px;
       display: flex;
@@ -1176,6 +1180,84 @@
       padding: 16px 20px;
       border-bottom: 1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.022);
+    }
+
+    .chat-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fullscreen-chat {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(255,255,255,.035);
+      font-size: .92rem;
+      transition: color .2s ease, border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+
+    .fullscreen-chat:hover,
+    .fullscreen-chat:focus-visible {
+      color: var(--text);
+      border-color: rgba(16,216,118,.3);
+      outline: none;
+      background: rgba(16,216,118,.08);
+      transform: translateY(-1px);
+    }
+
+    .chat-window:fullscreen,
+    .chat-window.is-immersive {
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 0;
+      border-radius: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(79,124,255,.13), transparent 30%),
+        radial-gradient(circle at 88% 84%, rgba(16,216,118,.1), transparent 32%),
+        #080B16;
+    }
+
+    .chat-window.is-immersive {
+      position: fixed;
+      inset: 0;
+      z-index: 700;
+    }
+
+    .chat-window:fullscreen .chat-feed,
+    .chat-window.is-immersive .chat-feed {
+      min-height: 0;
+      max-height: none;
+      flex: 1;
+      padding-inline: max(22px, calc((100vw - 1040px) / 2));
+    }
+
+    .chat-window:fullscreen .message,
+    .chat-window.is-immersive .message {
+      max-width: min(820px, 82%);
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+
+    .chat-window:fullscreen .chat-composer,
+    .chat-window.is-immersive .chat-composer,
+    .chat-window:fullscreen .chat-quick-prompts,
+    .chat-window.is-immersive .chat-quick-prompts {
+      padding-inline: max(20px, calc((100vw - 980px) / 2));
+    }
+
+    .chat-window:fullscreen .aura-plugins,
+    .chat-window.is-immersive .aura-plugins {
+      padding-inline: max(20px, calc((100vw - 1120px) / 2));
     }
 
     .aura-plugins {
@@ -1370,6 +1452,15 @@
       overflow-wrap: anywhere;
     }
 
+    .message-text {
+      white-space: pre-wrap;
+    }
+
+    .message-text + .generated-code,
+    .generated-code + .message-text {
+      margin-top: 12px;
+    }
+
     .user .message {
       border-color: rgba(16,216,118,.22);
       border-radius: 17px 17px 5px 17px;
@@ -1394,14 +1485,60 @@
       font-style: italic;
     }
 
+    .generated-code {
+      overflow: hidden;
+      border: 1px solid rgba(0,231,255,.14);
+      border-radius: 13px;
+      background: rgba(3,6,12,.76);
+      box-shadow: 0 14px 34px rgba(0,0,0,.18);
+    }
+
+    .code-toolbar {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 10px 7px 13px;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      color: var(--muted-2);
+      background: rgba(255,255,255,.035);
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .copy-code {
+      padding: 5px 8px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 7px;
+      color: var(--muted);
+      cursor: pointer;
+      background: rgba(255,255,255,.04);
+      font-size: .6rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .copy-code:hover,
+    .copy-code:focus-visible {
+      color: var(--text);
+      border-color: rgba(16,216,118,.28);
+      outline: none;
+      background: rgba(16,216,118,.08);
+    }
+
     .code-block {
-      margin-top: 12px;
+      max-height: 520px;
       overflow-x: auto;
-      padding: 14px;
-      border: 1px solid rgba(0,231,255,.12);
-      border-radius: 12px;
+      margin: 0;
+      padding: 15px;
+      border: 0;
       color: #B5F7E0;
-      background: rgba(3,6,12,.68);
+      background: transparent;
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
       font-size: .74rem;
       line-height: 1.7;
@@ -2712,6 +2849,11 @@
         display: none;
       }
 
+      .fullscreen-chat {
+        width: 36px;
+        height: 36px;
+      }
+
       .chat-topbar,
       .chat-composer {
         padding-right: 14px;
@@ -2729,6 +2871,18 @@
 
       .message {
         max-width: 86%;
+      }
+
+      .chat-window:fullscreen .chat-feed,
+      .chat-window.is-immersive .chat-feed,
+      .chat-window:fullscreen .chat-composer,
+      .chat-window.is-immersive .chat-composer,
+      .chat-window:fullscreen .chat-quick-prompts,
+      .chat-window.is-immersive .chat-quick-prompts,
+      .chat-window:fullscreen .aura-plugins,
+      .chat-window.is-immersive .aura-plugins {
+        padding-right: 12px;
+        padding-left: 12px;
       }
 
       .attachment-grid {
@@ -2961,7 +3115,7 @@
           <p>A focused space where research, files, code, and ideas come together without breaking your flow.</p>
         </div>
 
-        <div class="chat-window glass">
+        <div class="chat-window glass" id="chatWindow">
           <div class="chat-topbar">
             <div class="chat-identity">
               <div class="chat-avatar" aria-hidden="true">✦</div>
@@ -2970,7 +3124,12 @@
                 <small><span class="online">●</span> Online · Thinking with you</small>
               </div>
             </div>
-            <span class="chat-meta">Account synced · Private</span>
+            <div class="chat-top-actions">
+              <span class="chat-meta">Account synced · Private</span>
+              <button class="fullscreen-chat" id="fullscreenChatButton" type="button" aria-label="Open chat in full screen" aria-pressed="false" title="Full screen">
+                <span id="fullscreenChatIcon" aria-hidden="true">⛶</span>
+              </button>
+            </div>
           </div>
 
           <div class="aura-plugins">
@@ -2992,9 +3151,9 @@
             <div class="message-row">
               <div class="mini-avatar" aria-hidden="true">✦</div>
               <div class="message">
-                <div class="message-copy">Hi, I’m AURA—the mind inside Shashwat AI. I’m built to help you think clearly, shape ideas, plan projects, write, learn, design, and solve code problems.
+                <div class="message-copy">Hi, I’m AURA. Tell me what you want to make or solve. I’ll answer directly, keep the work clear, and use the right creation plugin for the job.
 
-What are we creating today?</div>
+What should we start with?</div>
                 <span class="message-time">AURA · Now</span>
               </div>
             </div>
@@ -3373,7 +3532,7 @@ What are we creating today?</div>
 
       const STORAGE_KEY = "shashwat-aura-conversation-v1";
       const PLUGIN_KEY = "shashwat-aura-plugin-v1";
-      const WELCOME_MESSAGE = "Hi, I’m AURA—the mind inside Shashwat AI. I’m built to help you think clearly, shape ideas, plan projects, write, learn, design, and solve code problems.\n\nWhat are we creating today?";
+      const WELCOME_MESSAGE = "Hi, I’m AURA. Tell me what you want to make or solve. I’ll answer directly, keep the work clear, and use the right creation plugin for the job.\n\nWhat should we start with?";
 
       const chatFeed = document.getElementById("chatFeed");
       const typingRow = document.getElementById("typingRow");
@@ -3383,6 +3542,9 @@ What are we creating today?</div>
       const clearChatButton = document.getElementById("clearChat");
       const newChatButton = document.getElementById("newChatButton");
       const promptChips = document.querySelectorAll(".prompt-chip");
+      const chatWindow = document.getElementById("chatWindow");
+      const fullscreenChatButton = document.getElementById("fullscreenChatButton");
+      const fullscreenChatIcon = document.getElementById("fullscreenChatIcon");
       const pluginButtons = document.querySelectorAll(".plugin-button");
       const activePluginHint = document.getElementById("activePluginHint");
       const imageStudio = document.getElementById("imageStudio");
@@ -3471,7 +3633,82 @@ What are we creating today?</div>
         chatFeed.scrollTop = chatFeed.scrollHeight;
       };
 
-      /* Messages use textContent so user input can never become page markup. */
+      const copyPlainText = async value => {
+        try {
+          await navigator.clipboard.writeText(value);
+          return true;
+        } catch {
+          const helper = document.createElement("textarea");
+          helper.value = value;
+          helper.setAttribute("readonly", "");
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.appendChild(helper);
+          helper.select();
+          const copied = document.execCommand("copy");
+          helper.remove();
+          return copied;
+        }
+      };
+
+      /* Rich messages still use textContent, so prompts can never become page markup. */
+      const renderMessageContent = (container, text) => {
+        const fencePattern = /```([a-zA-Z0-9_+#.-]*)\n([\s\S]*?)```/g;
+        let cursor = 0;
+        let match;
+
+        const appendText = value => {
+          if (!value) return;
+          const block = document.createElement("div");
+          block.className = "message-text";
+          block.textContent = value;
+          container.appendChild(block);
+        };
+
+        while ((match = fencePattern.exec(text)) !== null) {
+          appendText(text.slice(cursor, match.index));
+
+          const language = match[1] || "code";
+          const source = match[2].replace(/\n$/, "");
+          const panel = document.createElement("div");
+          panel.className = "generated-code";
+
+          const toolbar = document.createElement("div");
+          toolbar.className = "code-toolbar";
+
+          const label = document.createElement("span");
+          label.textContent = language;
+
+          const copyButton = document.createElement("button");
+          copyButton.className = "copy-code";
+          copyButton.type = "button";
+          copyButton.textContent = "Copy code";
+          copyButton.setAttribute("aria-label", `Copy ${language} code`);
+          copyButton.addEventListener("click", async () => {
+            const copied = await copyPlainText(source);
+            copyButton.textContent = copied ? "Copied" : "Copy failed";
+            window.setTimeout(() => {
+              copyButton.textContent = "Copy code";
+            }, 1600);
+          });
+
+          const pre = document.createElement("pre");
+          pre.className = "code-block";
+          const code = document.createElement("code");
+          code.textContent = source;
+          pre.appendChild(code);
+          toolbar.append(label, copyButton);
+          panel.append(toolbar, pre);
+          container.appendChild(panel);
+          cursor = fencePattern.lastIndex;
+        }
+
+        appendText(text.slice(cursor));
+        if (!container.childNodes.length) {
+          container.textContent = text;
+        }
+      };
+
       const renderMessage = message => {
         const row = document.createElement("div");
         row.className = `message-row${message.role === "user" ? " user" : ""}`;
@@ -3486,7 +3723,7 @@ What are we creating today?</div>
 
         const copy = document.createElement("div");
         copy.className = "message-copy";
-        copy.textContent = message.text;
+        renderMessageContent(copy, message.text);
 
         const time = document.createElement("span");
         time.className = "message-time";
@@ -3795,6 +4032,52 @@ What are we creating today?</div>
         imageStudioStatus.textContent = `Created ${width} × ${height} visual · Variation ${variation + 1}`;
       };
 
+      const currentFullscreenElement = () =>
+        document.fullscreenElement || document.webkitFullscreenElement || null;
+
+      const updateFullscreenControl = () => {
+        const isFullscreen = currentFullscreenElement() === chatWindow ||
+          chatWindow.classList.contains("is-immersive");
+        fullscreenChatButton.setAttribute("aria-pressed", String(isFullscreen));
+        fullscreenChatButton.setAttribute(
+          "aria-label",
+          isFullscreen ? "Exit full-screen chat" : "Open chat in full screen"
+        );
+        fullscreenChatButton.title = isFullscreen ? "Exit full screen" : "Full screen";
+        fullscreenChatIcon.textContent = isFullscreen ? "↙" : "⛶";
+      };
+
+      const exitChatFullscreen = async () => {
+        try {
+          if (currentFullscreenElement() === chatWindow) {
+            const exit = document.exitFullscreen || document.webkitExitFullscreen;
+            if (exit) await exit.call(document);
+          }
+        } catch {
+          /* The CSS fallback below always restores the page. */
+        }
+        chatWindow.classList.remove("is-immersive");
+        document.body.classList.remove("chat-immersive");
+        updateFullscreenControl();
+      };
+
+      const enterChatFullscreen = async () => {
+        const request = chatWindow.requestFullscreen || chatWindow.webkitRequestFullscreen;
+        if (request) {
+          try {
+            await request.call(chatWindow);
+            updateFullscreenControl();
+            return;
+          } catch {
+            /* Use the reliable CSS immersive mode when native fullscreen is blocked. */
+          }
+        }
+
+        chatWindow.classList.add("is-immersive");
+        document.body.classList.add("chat-immersive");
+        updateFullscreenControl();
+      };
+
       const openImageStudio = prompt => {
         if (typeof prompt === "string" && prompt.trim()) {
           imagePrompt.value = prompt
@@ -3802,9 +4085,12 @@ What are we creating today?</div>
             .trim()
             .slice(0, 240);
         }
-        imageStudio.hidden = false;
-        document.body.style.overflow = "hidden";
-        window.setTimeout(() => imagePrompt.focus(), 30);
+
+        exitChatFullscreen().finally(() => {
+          imageStudio.hidden = false;
+          document.body.style.overflow = "hidden";
+          window.setTimeout(() => imagePrompt.focus(), 30);
+        });
       };
 
       const closeImageStudio = () => {
@@ -4065,6 +4351,243 @@ What are we creating today?</div>
         return `Quick summary\n${selected}\n\nKey themes: ${themes.length ? themes.join(" · ") : "clarity · purpose · action"}`;
       };
 
+      const fencedCode = (language, source) => `\`\`\`${language}\n${source.trim()}\n\`\`\``;
+
+      const createCodeResponse = source => {
+        const lower = source.toLowerCase();
+
+        if (containsAny(lower, ["calculator", "calculate numbers"])) {
+          const code = [
+            "const operations = {",
+            "  \"+\": (a, b) => a + b,",
+            "  \"-\": (a, b) => a - b,",
+            "  \"*\": (a, b) => a * b,",
+            "  \"/\": (a, b) => {",
+            "    if (b === 0) throw new Error(\"Cannot divide by zero\");",
+            "    return a / b;",
+            "  }",
+            "};",
+            "",
+            "function calculate(firstNumber, operator, secondNumber) {",
+            "  const operation = operations[operator];",
+            "  if (!operation) throw new Error(`Unsupported operator: ${operator}`);",
+            "",
+            "  const result = operation(Number(firstNumber), Number(secondNumber));",
+            "  if (!Number.isFinite(result)) throw new Error(\"Invalid calculation\");",
+            "  return result;",
+            "}",
+            "",
+            "console.log(calculate(12, \"+\", 8)); // 20",
+            "console.log(calculate(9, \"*\", 4)); // 36"
+          ].join("\n");
+          return `Here’s a working JavaScript calculator core with input validation and safe division.\n\n${fencedCode("javascript", code)}\n\nUse \`calculate(number, operator, number)\` anywhere in your interface.`;
+        }
+
+        if (containsAny(lower, ["to-do", "todo", "task list"])) {
+          const code = [
+            "<!doctype html>",
+            "<html lang=\"en\">",
+            "<meta charset=\"utf-8\">",
+            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">",
+            "<title>Quick Tasks</title>",
+            "<style>",
+            "  * { box-sizing: border-box; }",
+            "  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font: 16px system-ui; background: #0b1020; color: white; }",
+            "  main { width: min(520px, 92vw); padding: 24px; border: 1px solid #26304c; border-radius: 20px; background: #12192b; }",
+            "  form { display: flex; gap: 8px; }",
+            "  input { flex: 1; padding: 12px; border: 1px solid #33405f; border-radius: 10px; color: white; background: #0b1020; }",
+            "  button { padding: 11px 14px; border: 0; border-radius: 10px; cursor: pointer; font-weight: 700; }",
+            "  form button { background: #10d876; color: #04110a; }",
+            "  ul { padding: 0; list-style: none; }",
+            "  li { display: flex; align-items: center; gap: 10px; margin-top: 9px; padding: 11px; border-radius: 10px; background: #192238; }",
+            "  li span { flex: 1; }",
+            "  li button { color: #ff9cb0; background: transparent; }",
+            "</style>",
+            "<main>",
+            "  <h1>Quick Tasks</h1>",
+            "  <form id=\"taskForm\"><input id=\"taskInput\" placeholder=\"Add a task\" required><button>Add</button></form>",
+            "  <ul id=\"taskList\"></ul>",
+            "</main>",
+            "<script>",
+            "  const form = document.querySelector(\"#taskForm\");",
+            "  const input = document.querySelector(\"#taskInput\");",
+            "  const list = document.querySelector(\"#taskList\");",
+            "",
+            "  form.addEventListener(\"submit\", event => {",
+            "    event.preventDefault();",
+            "    const text = input.value.trim();",
+            "    if (!text) return;",
+            "",
+            "    const item = document.createElement(\"li\");",
+            "    const label = document.createElement(\"span\");",
+            "    const remove = document.createElement(\"button\");",
+            "    label.textContent = text;",
+            "    remove.textContent = \"Remove\";",
+            "    remove.addEventListener(\"click\", () => item.remove());",
+            "    item.append(label, remove);",
+            "    list.prepend(item);",
+            "    form.reset();",
+            "    input.focus();",
+            "  });",
+            "<\/script>",
+            "</html>"
+          ].join("\n");
+          return `Here’s a complete single-file task list. Save it as \`index.html\` and open it in a browser.\n\n${fencedCode("html", code)}`;
+        }
+
+        if (containsAny(lower, ["landing page", "portfolio", "homepage", "website", "web page"])) {
+          const code = [
+            "<!doctype html>",
+            "<html lang=\"en\">",
+            "<head>",
+            "  <meta charset=\"utf-8\">",
+            "  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">",
+            "  <title>Nova Studio</title>",
+            "  <style>",
+            "    * { box-sizing: border-box; }",
+            "    body { margin: 0; font-family: Inter, system-ui, sans-serif; color: #f7fbff; background: #080b16; }",
+            "    nav, .hero { width: min(1100px, 90%); margin: auto; }",
+            "    nav { height: 72px; display: flex; align-items: center; justify-content: space-between; }",
+            "    nav a { color: inherit; text-decoration: none; font-weight: 800; }",
+            "    .hero { min-height: calc(100vh - 72px); display: grid; place-items: center; text-align: center; }",
+            "    .hero div { max-width: 760px; }",
+            "    .eyebrow { color: #10d876; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }",
+            "    h1 { margin: 14px 0; font-size: clamp(3rem, 9vw, 7rem); line-height: .94; letter-spacing: -.06em; }",
+            "    p { color: #afbad0; font-size: 1.08rem; line-height: 1.7; }",
+            "    .cta { display: inline-block; margin-top: 18px; padding: 14px 20px; border-radius: 12px; color: #04110a; background: #10d876; font-weight: 900; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "  <nav><a href=\"#\">Nova Studio</a><a href=\"#work\">Work</a></nav>",
+            "  <main class=\"hero\">",
+            "    <div>",
+            "      <span class=\"eyebrow\">Design with purpose</span>",
+            "      <h1>Ideas shaped into memorable products.</h1>",
+            "      <p>We turn ambitious concepts into clear, thoughtful digital experiences that people enjoy using.</p>",
+            "      <a class=\"cta\" href=\"mailto:hello@example.com\">Start a project</a>",
+            "    </div>",
+            "  </main>",
+            "</body>",
+            "</html>"
+          ].join("\n");
+          return `Here’s a complete responsive landing page. Save it as \`index.html\`, then change the brand, copy, and email.\n\n${fencedCode("html", code)}`;
+        }
+
+        if (containsAny(lower, ["button", "call to action", "cta"])) {
+          const code = [
+            "<button class=\"primary-action\" type=\"button\">Create project <span aria-hidden=\"true\">↗</span></button>",
+            "",
+            "<style>",
+            "  .primary-action {",
+            "    display: inline-flex;",
+            "    align-items: center;",
+            "    gap: .6rem;",
+            "    padding: .85rem 1.1rem;",
+            "    border: 0;",
+            "    border-radius: .8rem;",
+            "    color: #04110a;",
+            "    cursor: pointer;",
+            "    background: linear-gradient(135deg, #10d876, #00e7ff);",
+            "    box-shadow: 0 12px 28px rgba(16, 216, 118, .22);",
+            "    font: 800 .95rem system-ui;",
+            "    transition: transform .2s ease, box-shadow .2s ease;",
+            "  }",
+            "  .primary-action:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(16, 216, 118, .32); }",
+            "  .primary-action:focus-visible { outline: 3px solid rgba(0, 231, 255, .45); outline-offset: 3px; }",
+            "</style>"
+          ].join("\n");
+          return `Here’s a polished, accessible action button you can paste directly into an HTML page.\n\n${fencedCode("html", code)}`;
+        }
+
+        if (containsAny(lower, ["react", "component", "jsx"])) {
+          const code = [
+            "import { useState } from \"react\";",
+            "",
+            "export default function CounterCard() {",
+            "  const [count, setCount] = useState(0);",
+            "",
+            "  return (",
+            "    <section className=\"counter-card\">",
+            "      <p>Current count</p>",
+            "      <strong>{count}</strong>",
+            "      <div>",
+            "        <button onClick={() => setCount(value => value - 1)}>Decrease</button>",
+            "        <button onClick={() => setCount(value => value + 1)}>Increase</button>",
+            "      </div>",
+            "    </section>",
+            "  );",
+            "}"
+          ].join("\n");
+          return `Here’s a working React component with real state and functional updates.\n\n${fencedCode("jsx", code)}`;
+        }
+
+        if (containsAny(lower, ["python", "py "])){
+          const code = [
+            "def summarize_numbers(values):",
+            "    \"\"\"Return useful statistics for a non-empty list of numbers.\"\"\"",
+            "    if not values:",
+            "        raise ValueError(\"values cannot be empty\")",
+            "",
+            "    numbers = [float(value) for value in values]",
+            "    total = sum(numbers)",
+            "",
+            "    return {",
+            "        \"count\": len(numbers),",
+            "        \"total\": total,",
+            "        \"average\": total / len(numbers),",
+            "        \"minimum\": min(numbers),",
+            "        \"maximum\": max(numbers),",
+            "    }",
+            "",
+            "",
+            "result = summarize_numbers([12, 18, 7, 23])",
+            "print(result)"
+          ].join("\n");
+          return `Here’s runnable Python with validation, a clear return value, and an example call.\n\n${fencedCode("python", code)}`;
+        }
+
+        if (containsAny(lower, ["api", "fetch", "request data"])) {
+          const code = [
+            "async function getJson(url, options = {}) {",
+            "  const response = await fetch(url, {",
+            "    headers: { \"Accept\": \"application/json\", ...options.headers },",
+            "    ...options",
+            "  });",
+            "",
+            "  if (!response.ok) {",
+            "    throw new Error(`Request failed: ${response.status} ${response.statusText}`);",
+            "  }",
+            "",
+            "  return response.json();",
+            "}",
+            "",
+            "getJson(\"https://api.example.com/projects\")",
+            "  .then(projects => console.log(projects))",
+            "  .catch(error => console.error(error.message));"
+          ].join("\n");
+          return `Here’s a reusable JavaScript API helper with status checking and clean error handling.\n\n${fencedCode("javascript", code)}`;
+        }
+
+        const code = [
+          "function createFeature({ title = \"New feature\", enabled = true } = {}) {",
+          "  if (typeof title !== \"string\" || !title.trim()) {",
+          "    throw new TypeError(\"title must be a non-empty string\");",
+          "  }",
+          "",
+          "  return {",
+          "    id: crypto.randomUUID(),",
+          "    title: title.trim(),",
+          "    enabled: Boolean(enabled),",
+          "    createdAt: new Date().toISOString()",
+          "  };",
+          "}",
+          "",
+          "const feature = createFeature({ title: \"AURA workspace\" });",
+          "console.log(feature);"
+        ].join("\n");
+        return `Here’s a working JavaScript starter with defaults, validation, and a predictable result. Tell me the exact feature and language for a more specific implementation.\n\n${fencedCode("javascript", code)}`;
+      };
+
       const createResponse = originalText => {
         const text = originalText.trim();
         const lower = text.toLowerCase();
@@ -4112,28 +4635,22 @@ What are we creating today?</div>
         }
 
         if (activePlugin === "code") {
-          const technology = containsAny(lower, ["python"]) ? "Python" :
-            containsAny(lower, ["javascript", " js "]) ? "JavaScript" :
-            containsAny(lower, ["css"]) ? "CSS" :
-            containsAny(lower, ["html"]) ? "HTML" : "the best-fit stack";
-          return `Code plugin active · ${technology}\n\nFor ${topic}, I’ll work in this order:\n1. Confirm the input, output, and edge cases.\n2. Choose the smallest maintainable structure.\n3. Implement the core path before optional features.\n4. Test success, empty, and error states.\n5. Explain the important decisions in plain language.\n\nSend the exact feature or paste the smallest failing snippet, plus “expected vs. actual.”`;
+          return createCodeResponse(text);
         }
 
         if (activePlugin === "writer") {
           return `Writer plugin active · ${topic}\n\nI can draft this directly. Send:\n• Format — email, post, caption, story, script, or page copy\n• Audience — who will read it\n• Goal — what they should think, feel, or do\n• Voice — friendly, premium, bold, calm, or another tone\n• Length — one line, short, medium, or detailed\n\nIf you leave anything out, I’ll choose a sensible default and still produce a complete first draft.`;
         }
 
-        if (containsAny(lower, ["website", "landing page", "web page", "portfolio", "homepage"])) {
+        if (
+          containsAny(lower, ["website", "landing page", "web page", "portfolio", "homepage"]) &&
+          !containsAny(lower, ["code", "html", "css", "javascript", "write the", "generate"])
+        ) {
           return `Let’s shape ${topic} into a clear website.\n\n1. Promise — state the transformation in one strong sentence.\n2. Proof — show the product, result, or most credible evidence early.\n3. Path — guide visitors through benefits in a simple visual rhythm.\n4. Action — use one primary call to action and repeat it with purpose.\n5. Polish — make spacing, contrast, speed, and mobile behavior feel effortless.\n\nStart by telling me the audience and the one action you want them to take.`;
         }
 
         if (containsAny(lower, ["code", "bug", "error", "debug", "html", "css", "javascript", "python", "api"])) {
-          const technology = containsAny(lower, ["python"]) ? "Python" :
-            containsAny(lower, ["javascript", " js "]) ? "JavaScript" :
-            containsAny(lower, ["css"]) ? "CSS" :
-            containsAny(lower, ["html"]) ? "HTML" : "your code";
-
-          return `I can help with ${technology}. Use this fast debugging path:\n\n1. Isolate the smallest part that still fails.\n2. Capture the exact error or unexpected result.\n3. Compare the inputs, state, and expected output.\n4. Fix the root condition, then test the edge cases.\n\nPaste the relevant snippet and tell me “expected vs. actual.” I’ll help you reason through it line by line.`;
+          return createCodeResponse(text);
         }
 
         if (containsAny(lower, ["design", "ui", "ux", "color", "layout", "logo", "interface"])) {
@@ -4242,6 +4759,20 @@ What are we creating today?</div>
         });
       });
 
+      fullscreenChatButton.addEventListener("click", () => {
+        if (
+          currentFullscreenElement() === chatWindow ||
+          chatWindow.classList.contains("is-immersive")
+        ) {
+          exitChatFullscreen();
+        } else {
+          enterChatFullscreen();
+        }
+      });
+
+      document.addEventListener("fullscreenchange", updateFullscreenControl);
+      document.addEventListener("webkitfullscreenchange", updateFullscreenControl);
+
       imageStudioForm.addEventListener("submit", event => {
         event.preventDefault();
         const prompt = imagePrompt.value.trim();
@@ -4294,6 +4825,8 @@ What are we creating today?</div>
       document.addEventListener("keydown", event => {
         if (event.key === "Escape" && !imageStudio.hidden) {
           closeImageStudio();
+        } else if (event.key === "Escape" && chatWindow.classList.contains("is-immersive")) {
+          exitChatFullscreen();
         }
       });
 
@@ -4309,13 +4842,14 @@ What are we creating today?</div>
           const actionPrompts = {
             "Start Chat": "Help me turn a rough idea into a clear plan",
             "Summarize Text": "Summarize: ",
-            "Generate Code": "Help me plan the code for ",
+            "Generate Code": "Write working code for ",
             "Learn Faster": "Explain in simple words: ",
             "Translate": "Translate into English: "
           };
 
           if (actionPrompts[action]) {
             event.preventDefault();
+            if (action === "Generate Code") activatePlugin("code");
             document.getElementById("chats").scrollIntoView({ behavior: "smooth" });
             assistantInput.value = actionPrompts[action];
             resizeInput();
@@ -4332,6 +4866,7 @@ What are we creating today?</div>
       } catch {
         activatePlugin("auto");
       }
+      updateFullscreenControl();
 
       /* Restore the latest device-local conversation. */
       chatFeed.querySelectorAll(".message-row:not(.typing-row)").forEach(row => row.remove());
