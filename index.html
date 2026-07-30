@@ -2795,6 +2795,109 @@ What are we creating today?</div>
           .join("\n\n");
       };
 
+      /* Safe arithmetic parser: supports +, −, ×, ÷, %, powers, and parentheses. */
+      const solveArithmeticQuestion = source => {
+        const normalized = source
+          .replace(/,/g, "")
+          .replace(/[×x]/gi, "*")
+          .replace(/÷/g, "/")
+          .replace(/[−–—]/g, "-")
+          .trim();
+
+        const percentage = normalized.match(/^(?:what(?:'s| is)\s+)?(-?\d+(?:\.\d+)?)\s*%\s+of\s+(-?\d+(?:\.\d+)?)\s*\??$/i);
+        if (percentage) {
+          const result = (Number(percentage[1]) / 100) * Number(percentage[2]);
+          return Number.isInteger(result) ? String(result) : String(Number(result.toFixed(10)));
+        }
+
+        const expression = normalized
+          .replace(/^\s*(?:what(?:'s| is)|calculate|compute|solve|find|please calculate|the answer to)\s+/i, "")
+          .replace(/[=?]+\s*$/g, "")
+          .trim();
+
+        if (!expression || !/\d/.test(expression) || !/[+\-*/%^]/.test(expression)) return null;
+        if (!/^[\d\s.+\-*/%^()]+$/.test(expression)) return null;
+
+        const tokens = expression.match(/\d*\.?\d+|[()+\-*/%^]/g);
+        if (!tokens || tokens.join("") !== expression.replace(/\s/g, "")) return null;
+
+        let position = 0;
+
+        const parsePrimary = () => {
+          const token = tokens[position];
+          if (token === "(") {
+            position += 1;
+            const value = parseExpression();
+            if (tokens[position] !== ")") throw new Error("Missing closing parenthesis");
+            position += 1;
+            return value;
+          }
+
+          if (!token || !/^(?:\d+\.?\d*|\.\d+)$/.test(token)) {
+            throw new Error("Expected a number");
+          }
+          position += 1;
+          return Number(token);
+        };
+
+        const parseUnary = () => {
+          if (tokens[position] === "+") {
+            position += 1;
+            return parseUnary();
+          }
+          if (tokens[position] === "-") {
+            position += 1;
+            return -parseUnary();
+          }
+          return parsePrimary();
+        };
+
+        const parsePower = () => {
+          const base = parseUnary();
+          if (tokens[position] === "^") {
+            position += 1;
+            return base ** parsePower();
+          }
+          return base;
+        };
+
+        const parseTerm = () => {
+          let value = parsePower();
+          while (["*", "/", "%"].includes(tokens[position])) {
+            const operator = tokens[position];
+            position += 1;
+            const right = parsePower();
+            if ((operator === "/" || operator === "%") && right === 0) {
+              throw new Error("Division by zero");
+            }
+            if (operator === "*") value *= right;
+            if (operator === "/") value /= right;
+            if (operator === "%") value %= right;
+          }
+          return value;
+        };
+
+        const parseExpression = () => {
+          let value = parseTerm();
+          while (["+", "-"].includes(tokens[position])) {
+            const operator = tokens[position];
+            position += 1;
+            const right = parseTerm();
+            value = operator === "+" ? value + right : value - right;
+          }
+          return value;
+        };
+
+        try {
+          const result = parseExpression();
+          if (position !== tokens.length || !Number.isFinite(result)) return null;
+          const rounded = Number(result.toFixed(10));
+          return String(Object.is(rounded, -0) ? 0 : rounded);
+        } catch {
+          return null;
+        }
+      };
+
       const cleanTopic = text => text
         .replace(/^(please\s+)?(help me|can you|could you|would you|i want to|tell me|explain|create|make|build|plan)\s+/i, "")
         .replace(/[?!.,]+$/g, "")
@@ -2847,6 +2950,11 @@ What are we creating today?</div>
 
         if (containsAny(lower, ["thank you", "thanks", "thx", "great job", "awesome"])) {
           return "You’re welcome. Keep going—I’m here for the next step whenever you’re ready.";
+        }
+
+        const arithmeticAnswer = solveArithmeticQuestion(text);
+        if (arithmeticAnswer !== null) {
+          return `The answer is ${arithmeticAnswer}.`;
         }
 
         if (containsAny(lower, ["summarize", "summary", "shorten this"])) {
